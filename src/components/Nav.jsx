@@ -5,7 +5,7 @@ function Nav({ isOpen, closeMenu }) {
     <ul
       className={`${
         isOpen ? "flex bg-primary" : "hidden"
-      } flex-col py-4 pb-6 pl-6 text-lg md:flex md:flex-row md:items-center md:gap-6 md:pb-0`}
+      } flex-col py-4 pb-6 pl-6 text-lg md:mr-5 md:flex md:flex-row md:items-center md:gap-6 md:pb-0`}
     >
       <li className="pb-4 font-montserrat text-lg font-semibold">
         <Link to="/" onClick={closeMenu}>
