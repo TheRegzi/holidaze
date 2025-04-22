@@ -14,6 +14,12 @@ export default {
         darkGrey: "#585858",
         lightGray: "#8E8E8E",
       },
+      fontFamily: {
+        rancho: ["Rancho", "cursive"],
+        nunito: ["Nunito", "sans-serif"],
+        openSans: ["Open Sans", "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
+      },
     },
   },
   plugins: [],
