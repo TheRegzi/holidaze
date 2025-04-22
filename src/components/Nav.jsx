@@ -1,44 +1,33 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-function Nav() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
+function Nav({ isOpen, closeMenu }) {
   return (
-    <nav>
-      <button onClick={toggleMenu}>
-        <FontAwesomeIcon icon={faBars} />
-      </button>
-
-      <ul style={{ display: isOpen ? "block" : "none" }}>
-        <li>
-          <Link to="/" onClick={() => setIsOpen(false)}>
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link to="/login" onClick={() => setIsOpen(false)}>
-            Login
-          </Link>
-        </li>
-        <li>
-          <Link to="/register" onClick={() => setIsOpen(false)}>
-            Register
-          </Link>
-        </li>
-        <li>
-          <Link to="/profile" onClick={() => setIsOpen(false)}>
-            Profile
-          </Link>
-        </li>
-      </ul>
-    </nav>
+    <ul
+      className={`${
+        isOpen ? "flex bg-primary" : "hidden"
+      } flex-col py-4 pb-6 pl-6 text-lg md:flex md:flex-row md:items-center md:gap-6 md:pb-0`}
+    >
+      <li className="pb-4 font-montserrat text-lg font-semibold">
+        <Link to="/" onClick={closeMenu}>
+          Home
+        </Link>
+      </li>
+      <li className="pb-4 font-montserrat text-lg font-semibold">
+        <Link to="/login" onClick={closeMenu}>
+          Login
+        </Link>
+      </li>
+      <li className="pb-4 font-montserrat text-lg font-semibold">
+        <Link to="/register" onClick={closeMenu}>
+          Register
+        </Link>
+      </li>
+      <li className="pb-4 font-montserrat text-lg font-semibold">
+        <Link to="/profile" onClick={closeMenu}>
+          Profile
+        </Link>
+      </li>
+    </ul>
   );
 }
 

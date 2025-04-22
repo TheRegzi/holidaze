@@ -1,14 +1,32 @@
-import Nav from "./Nav";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import Nav from "./Nav";
 
-function Header() {
+function Header({ toggleMenu, isOpen, closeMenu }) {
   return (
-    <header>
-      <Link to="/">
-        <img src="assets/logo.png" alt="Logo" />
-      </Link>
-      <Nav />
-    </header>
+    <>
+      <header className="flex items-center justify-between bg-primary p-4 md:gap-20">
+        <Link to="/">
+          <img src="/assets/logo.png" alt="Logo" />
+        </Link>
+        <button
+          onClick={toggleMenu}
+          className="text-2xl md:hidden"
+          aria-label="Toggle menu"
+        >
+          <FontAwesomeIcon icon={faBars} />
+        </button>
+        <div className="hidden md:block">
+          <Nav isOpen={true} closeMenu={closeMenu} />
+        </div>
+      </header>
+      {isOpen && (
+        <div className="md:hidden">
+          <Nav isOpen={isOpen} closeMenu={closeMenu} />
+        </div>
+      )}
+    </>
   );
 }
 
