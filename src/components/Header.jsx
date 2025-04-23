@@ -8,11 +8,11 @@ function Header({ toggleMenu, isOpen, closeMenu }) {
     <>
       <header className="flex items-center justify-between bg-primary p-4 md:gap-20">
         <Link to="/">
-          <img src="/assets/logo.png" alt="Logo" />
+          <img className="ml-2 md:ml-5" src="/assets/logo.png" alt="Logo" />
         </Link>
         <button
           onClick={toggleMenu}
-          className="text-2xl md:hidden"
+          className="mr-4 text-3xl md:hidden"
           aria-label="Toggle menu"
         >
           <FontAwesomeIcon icon={faBars} />
