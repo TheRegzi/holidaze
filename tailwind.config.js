@@ -1,3 +1,5 @@
+import textShadow from "tailwindcss-textshadow";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
@@ -20,7 +22,15 @@ export default {
         openSans: ["Open Sans", "sans-serif"],
         montserrat: ["Montserrat", "sans-serif"],
       },
+      width: {
+        xs: "300px",
+        sm: "450px",
+        md: "600px",
+        lg: "800px",
+        xl: "1000px",
+        "2xl": "1200px",
+      },
     },
   },
-  plugins: [],
+  plugins: [textShadow],
 };
