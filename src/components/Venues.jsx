@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
@@ -9,72 +9,83 @@ const VenueList = ({ searchParams }) => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchVenues = async (page) => {
-    try {
-      const response = await fetch(
-        `https://v2.api.noroff.dev/holidaze/venues?page=${page}`
-      );
-      const data = await response.json();
+  // Reset page when search params change
+  useEffect(() => {
+    setPage(1);
+  }, [searchParams]);
 
-      let filteredVenues = data.data;
+  const fetchVenues = useCallback(
+    async (currentPage) => {
+      try {
+        const response = await fetch(
+          `https://v2.api.noroff.dev/holidaze/venues?page=${currentPage}`
+        );
+        const data = await response.json();
 
-      if (searchParams.guests && !isNaN(parseInt(searchParams.guests))) {
-        const numberOfGuests = parseInt(searchParams.guests);
-        filteredVenues = filteredVenues.filter((venue) => {
-          return venue.maxGuests >= numberOfGuests;
-        });
-      }
+        let filteredVenues = [
+          ...new Map(data.data.map((venue) => [venue.id, venue])).values(),
+        ];
 
-      if (searchParams.location && searchParams.location.trim() !== "") {
-        filteredVenues = filteredVenues.filter((venue) => {
-          const venueCity = venue.location?.city?.toLowerCase() || "";
-          const venueCountry = venue.location?.country?.toLowerCase() || "";
-          const searchTerm = searchParams.location.toLowerCase();
+        if (searchParams.guests && !isNaN(parseInt(searchParams.guests))) {
+          const numberOfGuests = parseInt(searchParams.guests);
+          filteredVenues = filteredVenues.filter((venue) => {
+            return venue.maxGuests >= numberOfGuests;
+          });
+        }
 
-          return (
-            venueCity.includes(searchTerm) || venueCountry.includes(searchTerm)
-          );
-        });
-      }
-
-      if (searchParams.startDate && searchParams.endDate) {
-        const searchStart = new Date(searchParams.startDate);
-        const searchEnd = new Date(searchParams.endDate);
-        const numberOfGuests = parseInt(searchParams.guests) || 1;
-
-        filteredVenues = filteredVenues.filter((venue) => {
-          if (venue.maxGuests < numberOfGuests) {
-            return false;
-          }
-
-          if (!venue.bookings || !Array.isArray(venue.bookings)) {
-            return true;
-          }
-
-          const hasOverlap = venue.bookings.some((booking) => {
-            const bookingStart = new Date(booking.dateFrom);
-            const bookingEnd = new Date(booking.dateTo);
+        if (searchParams.location && searchParams.location.trim() !== "") {
+          filteredVenues = filteredVenues.filter((venue) => {
+            const venueCity = venue.location?.city?.toLowerCase() || "";
+            const venueCountry = venue.location?.country?.toLowerCase() || "";
+            const searchTerm = searchParams.location.toLowerCase();
 
             return (
-              (searchStart >= bookingStart && searchStart <= bookingEnd) ||
-              (searchEnd >= bookingStart && searchEnd <= bookingEnd) ||
-              (searchStart <= bookingStart && searchEnd >= bookingEnd)
+              venueCity.includes(searchTerm) ||
+              venueCountry.includes(searchTerm)
             );
           });
+        }
 
-          return !hasOverlap;
-        });
+        if (searchParams.startDate && searchParams.endDate) {
+          const searchStart = new Date(searchParams.startDate);
+          const searchEnd = new Date(searchParams.endDate);
+          const numberOfGuests = parseInt(searchParams.guests) || 1;
+
+          filteredVenues = filteredVenues.filter((venue) => {
+            if (venue.maxGuests < numberOfGuests) {
+              return false;
+            }
+
+            if (!venue.bookings || !Array.isArray(venue.bookings)) {
+              return true;
+            }
+
+            const hasOverlap = venue.bookings.some((booking) => {
+              const bookingStart = new Date(booking.dateFrom);
+              const bookingEnd = new Date(booking.dateTo);
+
+              return (
+                (searchStart >= bookingStart && searchStart <= bookingEnd) ||
+                (searchEnd >= bookingStart && searchEnd <= bookingEnd) ||
+                (searchStart <= bookingStart && searchEnd >= bookingEnd)
+              );
+            });
+
+            return !hasOverlap;
+          });
+        }
+
+        return {
+          venues: filteredVenues,
+          meta: data.meta,
+        };
+      } catch (error) {
+        console.error("Error fetching venues:", error);
+        return { venues: [], meta: {} };
       }
-
-      return {
-        venues: filteredVenues,
-        meta: data.meta,
-      };
-    } catch (error) {
-      console.error("Error fetching venues:", error);
-      return { venues: [], meta: {} };
-    }
-  };
+    },
+    [searchParams]
+  );
 
   useEffect(() => {
     const loadVenues = async () => {
@@ -85,7 +96,13 @@ const VenueList = ({ searchParams }) => {
         if (page === 1) {
           setVenues(result.venues);
         } else {
-          setVenues((prev) => [...prev, ...result.venues]);
+          setVenues((prev) => {
+            const combined = [...prev, ...result.venues];
+            const uniqueVenues = [
+              ...new Map(combined.map((venue) => [venue.id, venue])).values(),
+            ];
+            return uniqueVenues;
+          });
         }
 
         setHasMore(!result.meta.isLastPage);
@@ -97,12 +114,12 @@ const VenueList = ({ searchParams }) => {
     };
 
     loadVenues();
-  }, [searchParams, page]);
+  }, [page, fetchVenues]);
 
   useEffect(() => {
     const handleScroll = () => {
       if (
-        window.innerHeight + document.documentElement.scrollTop ===
+        window.innerHeight + document.documentElement.scrollTop + 1 >=
         document.documentElement.offsetHeight
       ) {
         if (hasMore && !loading) {
