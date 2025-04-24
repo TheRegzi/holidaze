@@ -7,7 +7,7 @@ function Header({ toggleMenu, isOpen, closeMenu }) {
   return (
     <>
       <header className="flex items-center justify-between bg-primary p-4 md:gap-20">
-        <Link to="/">
+        <Link to="/" onClick={() => (window.location.href = "/")}>
           <img className="ml-2 md:ml-5" src="/assets/logo.png" alt="Logo" />
         </Link>
         <button

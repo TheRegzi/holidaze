@@ -156,9 +156,17 @@ const VenueList = ({ searchParams }) => {
 };
 
 const VenueCard = ({ venue }) => {
+  const capitalizeWords = (str) => {
+    return str
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
   return (
     <div className="group relative overflow-hidden rounded-lg bg-secondary shadow-xl">
-      <Link to={`/venues/${venue.id}`} className="block">
+      <Link to={`/specific-venue/${venue.id}`} className="block">
         <div className="absolute inset-0 z-10 bg-black opacity-0 transition-opacity duration-500 group-hover:opacity-40"></div>
         <div className="absolute inset-0 z-20 flex items-center justify-center text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100">
           <p className="rounded-lg border-2 border-black bg-secondary px-2 py-4 font-montserrat font-semibold text-black">
@@ -199,9 +207,13 @@ const VenueCard = ({ venue }) => {
               icon={faLocationDot}
               className="mr-1 text-sm text-accentDark"
             />
-            {venue.location?.city
-              ? `${venue.location.city}, ${venue.location.country}`
-              : venue.location.country || "No country stated"}
+            {venue.location?.city && venue.location?.country
+              ? `${capitalizeWords(venue.location.city)}, ${capitalizeWords(venue.location.country)}`
+              : venue.location?.city
+                ? capitalizeWords(venue.location.city)
+                : venue.location?.country
+                  ? capitalizeWords(venue.location.country)
+                  : "No location stated"}
           </p>
         </div>
       </Link>
