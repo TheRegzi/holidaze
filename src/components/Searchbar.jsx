@@ -8,7 +8,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
-function SearchBar() {
+function SearchBar({ onSearch }) {
   const [location, setLocation] = useState("");
   const [guests, setGuests] = useState("");
   const [dates, setDates] = useState([null, null]);
@@ -20,17 +20,20 @@ function SearchBar() {
     const formattedEndDate = dates[1]
       ? dates[1].toISOString().split("T")[0]
       : "";
-    console.log("Search values:", {
+
+    const searchParams = {
       location,
       startDate: formattedStartDate,
       endDate: formattedEndDate,
-      guests,
-    });
+      guests: guests ? parseInt(guests) : "",
+    };
+
+    onSearch(searchParams);
   };
 
   return (
     <div className="mx-auto flex w-full flex-col items-center rounded-md p-4 sm:w-md md:flex-row lg:w-lg">
-      <div className="grid w-full grid-cols-3 gap-2 md:gap-3">
+      <div className="grid w-full grid-cols-3 gap-2 font-montserrat md:gap-3">
         <div className="relative">
           <input
             type="text"
@@ -44,15 +47,18 @@ function SearchBar() {
             className="absolute left-3 top-1/2 -translate-y-1/2 transform text-sm text-gray-400"
           />
         </div>
-        <div className="relative">
+        <div className="relative z-50">
+          {" "}
+          {/* Lagt til z-50 her */}
           <DatePicker
             selected={dates[0]}
             onChange={(update) => setDates(update)}
             startDate={dates[0]}
             endDate={dates[1]}
             selectsRange
-            placeholderText="Select Dates"
+            placeholderText="Date"
             className="w-full rounded-md border-2 border-accentLight p-2 pl-7 text-sm md:text-base"
+            wrapperClassName="z-50" // Ekstra z-index for wrapper
           />
           <FontAwesomeIcon
             icon={faCalendar}
@@ -66,6 +72,7 @@ function SearchBar() {
             className="w-full rounded-md border-2 border-accentLight p-2 pl-7 text-sm md:text-base"
             value={guests}
             onChange={(e) => setGuests(e.target.value)}
+            min="1"
           />
           <FontAwesomeIcon
             icon={faUser}
