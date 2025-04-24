@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 
 const VenueList = ({ searchParams }) => {
   const [venues, setVenues] = useState([]);
@@ -9,7 +9,6 @@ const VenueList = ({ searchParams }) => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  // Reset page when search params change
   useEffect(() => {
     setPage(1);
   }, [searchParams]);
@@ -158,7 +157,7 @@ const VenueList = ({ searchParams }) => {
 
 const VenueCard = ({ venue }) => {
   return (
-    <div className="overflow-hidden rounded-lg bg-secondary bg-white shadow-xl">
+    <div className="overflow-hidden rounded-lg bg-secondary shadow-xl">
       <Link to={`/venues/${venue.id}`} className="block">
         <div className="relative h-64">
           <img
@@ -167,12 +166,25 @@ const VenueCard = ({ venue }) => {
             className="h-full w-full object-cover"
           />
         </div>
-        <div className="p-4">
-          <h3 className="mb-2 font-nunito text-xl font-semibold">
-            {venue.name.length > 25
-              ? `${venue.name.slice(0, 25)}...`
-              : venue.name}
-          </h3>
+        <div className="px-4 py-2">
+          <div className="flex justify-between">
+            <div>
+              <h3 className="font-nunito text-xl font-semibold">
+                {venue.name.length > 20
+                  ? `${venue.name.slice(0, 20)}...`
+                  : venue.name}
+              </h3>
+            </div>
+            <div>
+              <p>
+                {venue.rating}/5{" "}
+                <FontAwesomeIcon
+                  icon={faStar}
+                  className="mr-1 text-accentDark"
+                />
+              </p>
+            </div>
+          </div>
           <p className="text-gray-800">
             <span className="font-bold">${venue.price}</span> / night
           </p>
@@ -181,7 +193,9 @@ const VenueCard = ({ venue }) => {
               icon={faLocationDot}
               className="mr-1 text-sm text-accentDark"
             />
-            {venue.location?.city}, {venue.location?.country}
+            {venue.location?.city
+              ? `${venue.location.city}, ${venue.location.country}`
+              : venue.location.country || "No country stated"}
           </p>
         </div>
       </Link>
