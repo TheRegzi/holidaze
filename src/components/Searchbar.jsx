@@ -49,7 +49,6 @@ function SearchBar({ onSearch }) {
         </div>
         <div className="relative z-50">
           {" "}
-          {/* Lagt til z-50 her */}
           <DatePicker
             selected={dates[0]}
             onChange={(update) => setDates(update)}

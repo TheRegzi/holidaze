@@ -157,8 +157,14 @@ const VenueList = ({ searchParams }) => {
 
 const VenueCard = ({ venue }) => {
   return (
-    <div className="overflow-hidden rounded-lg bg-secondary shadow-xl">
+    <div className="group relative overflow-hidden rounded-lg bg-secondary shadow-xl">
       <Link to={`/venues/${venue.id}`} className="block">
+        <div className="absolute inset-0 z-10 bg-black opacity-0 transition-opacity duration-500 group-hover:opacity-40"></div>
+        <div className="absolute inset-0 z-20 flex items-center justify-center text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+          <p className="rounded-lg border-2 border-black bg-secondary px-2 py-4 font-montserrat font-semibold text-black">
+            Max guests: {venue.maxGuests}
+          </p>
+        </div>
         <div className="relative h-64">
           <img
             src={venue.media[0]?.url || "/assets/placeholder-image.jpg"}
@@ -166,7 +172,7 @@ const VenueCard = ({ venue }) => {
             className="h-full w-full object-cover"
           />
         </div>
-        <div className="px-4 py-2">
+        <div className="relative z-20 px-4 py-2">
           <div className="flex justify-between">
             <div>
               <h3 className="font-nunito text-xl font-semibold">
@@ -176,7 +182,7 @@ const VenueCard = ({ venue }) => {
               </h3>
             </div>
             <div>
-              <p>
+              <p className="font-montserrat font-medium">
                 {venue.rating}/5{" "}
                 <FontAwesomeIcon
                   icon={faStar}
@@ -185,10 +191,10 @@ const VenueCard = ({ venue }) => {
               </p>
             </div>
           </div>
-          <p className="text-gray-800">
+          <p className="font-openSans text-black">
             <span className="font-bold">${venue.price}</span> / night
           </p>
-          <p className="mb-2 text-gray-600">
+          <p className="mb-2 font-openSans text-black">
             <FontAwesomeIcon
               icon={faLocationDot}
               className="mr-1 text-sm text-accentDark"
