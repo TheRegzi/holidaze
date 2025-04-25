@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
+import { API_VENUES } from "../utils/constants";
 
 const VenueList = ({ searchParams }) => {
   const [venues, setVenues] = useState([]);
@@ -16,9 +17,7 @@ const VenueList = ({ searchParams }) => {
   const fetchVenues = useCallback(
     async (currentPage) => {
       try {
-        const response = await fetch(
-          `https://v2.api.noroff.dev/holidaze/venues?page=${currentPage}`
-        );
+        const response = await fetch(`${API_VENUES}?page=${currentPage}`);
         const data = await response.json();
 
         let filteredVenues = [
