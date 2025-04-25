@@ -7,7 +7,9 @@ function Register() {
   const isCustomer = role === "customer";
   const isVenueManager = role === "venueManager";
 
-  const inputClass = "border-2 border-accentLight2 rounded-md p-2";
+  const labelClass = "font-nunito text-lg font-bold text-black";
+  const inputClass =
+    "font-openSans text-md border-2 border-accentLight2 rounded-md p-2 shadow-lg";
 
   return (
     <div>
@@ -16,7 +18,9 @@ function Register() {
       </h1>
       <form className="mx-auto flex w-1/2 w-xs flex-col justify-center gap-4 sm:w-sm">
         <div className="flex flex-col gap-2">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="username" className={labelClass}>
+            Username
+          </label>
           <input
             type="text"
             name="username"
@@ -27,7 +31,9 @@ function Register() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email" className={labelClass}>
+            Email
+          </label>
           <input
             type="email"
             name="email"
@@ -38,7 +44,9 @@ function Register() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password" className={labelClass}>
+            Password
+          </label>
           <input
             type="password"
             name="password"
@@ -49,7 +57,9 @@ function Register() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="confirmPassword">Confirm Password</label>
+          <label htmlFor="confirmPassword" className={labelClass}>
+            Confirm Password
+          </label>
           <input
             type="password"
             name="confirmPassword"
@@ -60,18 +70,18 @@ function Register() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label>Account type</label>
-          <div className="flex gap-4">
+          <label className={labelClass}>Select Account type</label>
+          <div className="mx-auto flex w-full gap-0">
             <button
               type="button"
-              className={`rounded px-4 py-2 ${isCustomer ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700"}`}
+              className={`flex-1 rounded-lg py-2 ${isCustomer ? "border-2 border-accent bg-primary font-semibold text-darkGrey shadow-lg" : "border-2 border-darkGrey bg-white font-semibold text-gray-700"}`}
               onClick={() => setRole("customer")}
             >
               Customer
             </button>
             <button
               type="button"
-              className={`rounded px-4 py-2 ${isVenueManager ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700"}`}
+              className={`flex-1 rounded-lg py-2 ${isVenueManager ? "border-2 border-accent bg-primary font-semibold text-darkGrey shadow-lg" : "border-2 border-darkGrey bg-white font-semibold text-gray-700"}`}
               onClick={() => setRole("venueManager")}
             >
               Venue Manager
@@ -107,9 +117,9 @@ function Register() {
           Register
         </button>
       </form>
-      <p className="mt-4 text-center font-openSans text-sm text-darkGrey">
+      <p className="mt-5 text-center font-openSans text-sm text-darkGrey">
         Already have an account?{" "}
-        <Link to="/login" className="font-semibold text-red">
+        <Link to="/login" className="font-bold text-red">
           Log in here!
         </Link>
       </p>
