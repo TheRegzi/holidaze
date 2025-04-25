@@ -10,6 +10,7 @@ export default {
         secondary: "#FFF8EC",
         accent: "#FF9800",
         accentLight: "#FFCC80",
+        accentLight2: "#FFEFD7",
         accentDark: "#E65100",
         red: "#D23D0F",
         green: "#31A706",
