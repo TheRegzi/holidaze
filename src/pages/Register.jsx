@@ -1,22 +1,66 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { registerUser } from "../api/auth";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [role, setRole] = useState("customer");
-
-  const isCustomer = role === "customer";
-  const isVenueManager = role === "venueManager";
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const labelClass = "font-nunito text-lg font-bold text-black";
   const inputClass =
-    "font-openSans text-md border-2 border-accentLight2 rounded-md p-2 shadow-lg";
+    "rounded-lg border-2 border-accentLight2 bg-white px-4 py-2 text-md font-openSans text-darkGrey shadow-md focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent";
+  const isCustomer = role === "customer";
+  const isVenueManager = role === "venueManager";
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (form.password !== form.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await registerUser({
+        username: form.username,
+        email: form.email,
+        password: form.password,
+        role,
+      });
+      setSuccess(true);
+      setTimeout(() => navigate("/"), 1500);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
       <h1 className="my-8 text-center font-nunito text-3xl font-semibold text-shadow-lg">
         Register
       </h1>
-      <form className="mx-auto flex w-1/2 w-xs flex-col justify-center gap-4 sm:w-sm">
+      <form
+        className="mx-auto flex w-1/2 w-xs flex-col justify-center gap-4 sm:w-sm"
+        onSubmit={handleSubmit}
+      >
         <div className="flex flex-col gap-2">
           <label htmlFor="username" className={labelClass}>
             Username
@@ -25,6 +69,8 @@ function Register() {
             type="text"
             name="username"
             id="username"
+            value={form.username}
+            onChange={handleChange}
             className={inputClass}
             placeholder="Enter username"
           />
@@ -38,6 +84,8 @@ function Register() {
             type="email"
             name="email"
             id="email"
+            value={form.email}
+            onChange={handleChange}
             className={inputClass}
             placeholder="Enter e-mail"
           />
@@ -51,6 +99,8 @@ function Register() {
             type="password"
             name="password"
             id="password"
+            value={form.password}
+            onChange={handleChange}
             className={inputClass}
             placeholder="Enter password"
           />
@@ -64,6 +114,8 @@ function Register() {
             type="password"
             name="confirmPassword"
             id="confirmPassword"
+            value={form.confirmPassword}
+            onChange={handleChange}
             className={inputClass}
             placeholder="Enter password"
           />
@@ -89,10 +141,8 @@ function Register() {
           </div>
           {isCustomer && (
             <div className="mt-2 py-2">
-              <h1 className="text-md mb-2 font-bold text-black">
-                Customer account
-              </h1>
-              <p className="font-openSans text-sm text-darkGrey">
+              <h1 className={labelClass}>Customer account</h1>
+              <p className="mt-2 font-openSans text-sm text-darkGrey">
                 As a <b>Customer</b>, you can browse, search for, and book
                 venues for your next get-away!
               </p>
@@ -100,10 +150,8 @@ function Register() {
           )}
           {isVenueManager && (
             <div className="mt-2 py-2">
-              <h1 className="text-md mb-2 font-nunito font-bold text-black">
-                Venue Manager account
-              </h1>
-              <p className="font-openSans text-sm text-darkGrey">
+              <h1 className={labelClass}>Venue Manager account</h1>
+              <p className="mt-2 font-openSans text-sm text-darkGrey">
                 A <b>Venue Manager account</b> is for creating venues and
                 managing them!
               </p>
@@ -111,12 +159,23 @@ function Register() {
           )}
         </div>
         <button
+          disabled={loading}
           type="submit"
           className="mx-auto mt-4 w-36 rounded bg-accent py-2 font-montserrat font-semibold text-black"
         >
-          Register
+          {loading ? "Registering..." : "Register"}
         </button>
       </form>
+      {error && (
+        <div className="mx-auto mt-6 w-56 rounded-lg border-2 border-red p-3 text-center font-semibold text-red">
+          Error: {error}
+        </div>
+      )}
+      {success && (
+        <div className="mt-4 text-center font-semibold text-green">
+          Registered! Redirecting...
+        </div>
+      )}
       <p className="mt-5 text-center font-openSans text-sm text-darkGrey">
         Already have an account?{" "}
         <Link to="/login" className="font-bold text-red">
