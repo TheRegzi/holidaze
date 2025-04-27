@@ -75,7 +75,6 @@ function Register() {
             placeholder="Enter username"
           />
         </div>
-
         <div className="flex flex-col gap-2">
           <label htmlFor="email" className={labelClass}>
             Email
@@ -90,7 +89,6 @@ function Register() {
             placeholder="Enter e-mail"
           />
         </div>
-
         <div className="flex flex-col gap-2">
           <label htmlFor="password" className={labelClass}>
             Password
@@ -105,7 +103,6 @@ function Register() {
             placeholder="Enter password"
           />
         </div>
-
         <div className="flex flex-col gap-2">
           <label htmlFor="confirmPassword" className={labelClass}>
             Confirm Password
@@ -120,36 +117,35 @@ function Register() {
             placeholder="Enter password"
           />
         </div>
-
         <div className="flex flex-col gap-2">
           <label className={labelClass}>Select Account type</label>
           <div className="mx-auto flex w-full gap-0">
             <button
               type="button"
-              className={`flex-1 rounded-lg py-2 ${isCustomer ? "border-2 border-accent bg-primary font-semibold text-darkGrey shadow-lg" : "border-2 border-darkGrey bg-white font-semibold text-gray-700"}`}
+              className={`flex-1 rounded-lg py-2 ${isCustomer ? "z-20 -mr-3 border-2 border-accent bg-primary font-semibold text-darkGrey shadow-lg" : "border-2 border-darkGrey bg-white font-semibold text-gray-700"}`}
               onClick={() => setRole("customer")}
             >
               Customer
             </button>
             <button
               type="button"
-              className={`flex-1 rounded-lg py-2 ${isVenueManager ? "border-2 border-accent bg-primary font-semibold text-darkGrey shadow-lg" : "border-2 border-darkGrey bg-white font-semibold text-gray-700"}`}
+              className={`flex-1 rounded-lg py-2 ${isVenueManager ? "z-20 -ml-3 border-2 border-accent bg-primary font-semibold text-darkGrey shadow-lg" : "border-2 border-darkGrey bg-white font-semibold text-gray-700"}`}
               onClick={() => setRole("venueManager")}
             >
               Venue Manager
             </button>
           </div>
           {isCustomer && (
-            <div className="mt-2 py-2">
+            <div className="mt-2 pt-2">
               <h1 className={labelClass}>Customer account</h1>
               <p className="mt-2 font-openSans text-sm text-darkGrey">
-                As a <b>Customer</b>, you can browse, search for, and book
-                venues for your next get-away!
+                With a <b>Customer account</b>, you can browse, search for, and
+                book venues for your next get-away!
               </p>
             </div>
           )}
           {isVenueManager && (
-            <div className="mt-2 py-2">
+            <div className="mt-2 pt-2">
               <h1 className={labelClass}>Venue Manager account</h1>
               <p className="mt-2 font-openSans text-sm text-darkGrey">
                 A <b>Venue Manager account</b> is for creating venues and
