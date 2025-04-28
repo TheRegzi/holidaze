@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { API_VENUE } from "../utils/constants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
+import { capitalizeWords } from "../utils/helpers";
 
 function SpecificVenue() {
   const [venue, setVenue] = useState(null);
@@ -47,20 +50,33 @@ function SpecificVenue() {
         />
       </div>
       <div>
-        <h1 className="my-8 break-words px-4 text-center font-nunito text-3xl font-semibold text-shadow-lg">
+        <h1 className="mt-8 break-words px-4 text-center font-nunito text-3xl font-semibold text-shadow-lg">
           {venue.data.name}
         </h1>
-        <div className="align-center my-5 flex justify-center gap-10">
+        <div className="align-center my-5 flex justify-center gap-12">
           <div>
-            <p>
-              {venue.data.location.city}, {venue.data.location.country}
+            <p className="text-md font-montserrat font-medium text-black">
+              <FontAwesomeIcon
+                icon={faLocationDot}
+                className="mr-1 text-sm text-accentDark"
+              />
+              {venue.data.location?.city && venue.data.location?.country
+                ? `${capitalizeWords(venue.data.location.city)}, ${capitalizeWords(venue.data.location.country)}`
+                : venue.data.location?.city
+                  ? capitalizeWords(venue.data.location.city)
+                  : venue.data.location?.country
+                    ? capitalizeWords(venue.data.location.country)
+                    : "No location stated"}
             </p>
           </div>
           <div>
-            <p>{venue.data.rating}/5</p>
+            <p className="text-md font-montserrat font-medium text-black">
+              {venue.data.rating}/5{" "}
+              <FontAwesomeIcon icon={faStar} className="mr-1 text-accentDark" />
+            </p>
           </div>
         </div>
-        <div className="mx-auto my-4 flex w-96 flex-col items-center justify-center rounded-lg border-2 border-accentLight p-4">
+        <div className="mx-5 mx-auto my-4 flex w-80 flex-col items-center justify-center rounded-lg border-2 border-accentLight p-4 text-center sm:w-96">
           <h2 className="mb-2 mt-3 font-nunito text-lg font-bold text-black">
             Check availability
           </h2>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 import { API_VENUES } from "../utils/constants";
+import { capitalizeWords } from "../utils/helpers";
 
 const VenueList = ({ searchParams }) => {
   const [venues, setVenues] = useState([]);
@@ -155,14 +156,6 @@ const VenueList = ({ searchParams }) => {
 };
 
 const VenueCard = ({ venue }) => {
-  const capitalizeWords = (str) => {
-    return str
-      .toLowerCase()
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
-
   return (
     <div className="group relative overflow-hidden rounded-lg bg-secondary shadow-xl">
       <Link to={`/specific-venue/${venue.id}`} className="block">
