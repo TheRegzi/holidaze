@@ -1,6 +1,14 @@
 import { Link } from "react-router-dom";
+import { logoutUser } from "../api/auth/logoutUser";
+import { useNavigate } from "react-router-dom";
 
 function Nav({ isOpen, closeMenu }) {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    logoutUser();
+    navigate("/");
+  };
+
   return (
     <ul
       className={`${
@@ -26,6 +34,14 @@ function Nav({ isOpen, closeMenu }) {
         <Link to="/profile" onClick={closeMenu}>
           Profile
         </Link>
+      </li>
+      <li className="pb-4 font-montserrat text-lg font-semibold">
+        <button
+          className="rounded-lg bg-accent px-5 py-2 shadow-lg text-shadow-lg"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </li>
     </ul>
   );
