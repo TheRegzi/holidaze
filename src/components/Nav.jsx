@@ -22,16 +22,20 @@ function Nav({ isOpen, closeMenu }) {
           Home
         </Link>
       </li>
-      <li className="pb-4 font-montserrat text-lg font-semibold">
-        <Link to="/login" onClick={closeMenu}>
-          Login
-        </Link>
-      </li>
-      <li className="pb-4 font-montserrat text-lg font-semibold">
-        <Link to="/register" onClick={closeMenu}>
-          Register
-        </Link>
-      </li>
+      {isLoggedIn ? null : (
+        <li className="pb-4 font-montserrat text-lg font-semibold">
+          <Link to="/login" onClick={closeMenu}>
+            Login
+          </Link>
+        </li>
+      )}
+      {isLoggedIn ? null : (
+        <li className="pb-4 font-montserrat text-lg font-semibold">
+          <Link to="/register" onClick={closeMenu}>
+            Register
+          </Link>
+        </li>
+      )}
       <li className="pb-4 font-montserrat text-lg font-semibold">
         <Link to="/profile" onClick={closeMenu}>
           Profile
