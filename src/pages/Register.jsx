@@ -44,7 +44,7 @@ function Register() {
         role,
       });
       setSuccess(true);
-      setTimeout(() => navigate("/"), 1500);
+      setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
       setError(err.message);
     } finally {
