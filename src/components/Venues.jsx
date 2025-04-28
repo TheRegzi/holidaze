@@ -199,7 +199,7 @@ const VenueCard = ({ venue }) => {
             </div>
           </div>
           <p className="font-openSans text-black">
-            <span className="font-bold">${venue.price}</span> / night
+            <span className="font-bold">{venue.price} NOK</span> / night
           </p>
           <p className="mb-2 font-openSans text-black">
             <FontAwesomeIcon
