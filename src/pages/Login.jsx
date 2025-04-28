@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { loginUser } from "../api/auth";
+import { loginUser } from "../api/auth/loginUser";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
