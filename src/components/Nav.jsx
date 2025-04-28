@@ -36,11 +36,13 @@ function Nav({ isOpen, closeMenu }) {
           </Link>
         </li>
       )}
-      <li className="pb-4 font-montserrat text-lg font-semibold">
-        <Link to="/profile" onClick={closeMenu}>
-          Profile
-        </Link>
-      </li>
+      {isLoggedIn ? (
+        <li className="pb-4 font-montserrat text-lg font-semibold">
+          <Link to="/profile" onClick={closeMenu}>
+            Profile
+          </Link>
+        </li>
+      ) : null}
       {isLoggedIn ? (
         <li className="pb-4 font-montserrat text-lg font-semibold">
           <button
