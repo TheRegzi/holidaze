@@ -3,8 +3,14 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { API_VENUE } from "../utils/constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faStar,
+  faCheck,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { capitalizeWords } from "../utils/helpers";
+import VenueMap from "../components/VenueMap";
 
 function SpecificVenue() {
   const [venue, setVenue] = useState(null);
@@ -89,7 +95,7 @@ function SpecificVenue() {
           <button>Go to login</button>
         </div>
         <div>
-          <div>
+          <div className="px-6">
             <h2 className="mb-2 mt-3 text-center font-nunito text-lg font-bold text-black">
               Description
             </h2>
@@ -99,12 +105,28 @@ function SpecificVenue() {
             <h2 className="mb-2 mt-3 text-center font-nunito text-lg font-bold text-black">
               Facilities
             </h2>
-            <p>{venue.data.meta.breakfast}Wifi</p>
+            <ul className="mx-6 font-montserrat text-black">
+              {Object.entries(venue.data.meta).map(([key, value]) => (
+                <li key={key}>
+                  <FontAwesomeIcon
+                    icon={value ? faCheck : faTimes}
+                    style={{
+                      color: value ? "green" : "red",
+                      marginRight: "8px",
+                    }}
+                  />{" "}
+                  {key.charAt(0).toUpperCase() + key.slice(1)}
+                </li>
+              ))}
+            </ul>
           </div>
-          <div>
-            <h2 className="mb-2 mt-3 text-center font-nunito text-lg font-bold text-black">
-              Explore the area
-            </h2>
+        </div>
+        <div>
+          <h2 className="mb-2 mt-3 text-center font-nunito text-lg font-bold text-black">
+            Explore the area
+          </h2>
+          <div className="mx-6 mx-auto mb-12 mt-6 text-center sm:w-lg">
+            <VenueMap venue={venue} />
           </div>
         </div>
       </div>
