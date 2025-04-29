@@ -12,6 +12,7 @@ import {
 import { capitalizeWords } from "../utils/helpers";
 import VenueMap from "../components/VenueMap";
 import { Link } from "react-router-dom";
+import ImageCarousel from "../components/ImageCarousel";
 
 function SpecificVenue() {
   const [venue, setVenue] = useState(null);
@@ -51,10 +52,7 @@ function SpecificVenue() {
   return (
     <div>
       <div>
-        <img
-          src={venue.data.media[0].url}
-          alt={venue.data.media[0].alt || "Venue image"}
-        />
+        <ImageCarousel media={venue.data.media} />
       </div>
       <div>
         <h1 className="mt-8 break-words px-4 text-center font-nunito text-3xl font-semibold text-shadow-lg">
@@ -83,8 +81,8 @@ function SpecificVenue() {
             </p>
           </div>
         </div>
-        <div className="mx-auto flex flex-col justify-around sm:flex-row-reverse lg:w-xl lg:gap-16">
-          <div className="mx-auto my-4 flex w-80 flex-1 basis-1/2 flex-col items-center justify-center rounded-xl border-2 border-accentLight p-4 text-center md:mx-5 md:max-w-96">
+        <div className="mx-auto flex flex-col justify-around sm:flex-row-reverse sm:gap-10 lg:w-xl">
+          <div className="mx-auto my-4 flex max-h-72 w-80 flex-1 basis-1/2 flex-col items-center justify-center rounded-xl border-2 border-accentLight p-4 text-center md:mx-2 md:max-w-96">
             <h2 className="mb-4 mt-3 font-nunito text-xl font-bold text-black">
               Check availability
             </h2>
