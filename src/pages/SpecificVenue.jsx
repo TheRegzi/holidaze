@@ -13,6 +13,7 @@ import { capitalizeWords } from "../utils/helpers";
 import VenueMap from "../components/VenueMap";
 import { Link } from "react-router-dom";
 import ImageCarousel from "../components/ImageCarousel";
+import VenueBookingForm from "../components/VenueBookingForm";
 
 function SpecificVenue() {
   const [venue, setVenue] = useState(null);
@@ -47,7 +48,7 @@ function SpecificVenue() {
     return <div>Venue not found</div>;
   }
 
-  const isLoggedIn = localStorage.getItem("token") !== null;
+  const isLoggedIn = localStorage.getItem("accessToken") !== null;
 
   return (
     <div>
@@ -81,7 +82,7 @@ function SpecificVenue() {
             </p>
           </div>
         </div>
-        <div className="mx-auto flex flex-col justify-around sm:flex-row-reverse sm:gap-10 lg:w-xl">
+        <div className="mx-auto flex flex-col justify-around sm:flex-row-reverse md:gap-10 lg:w-xl">
           <div className="mx-auto my-4 flex max-h-72 w-80 flex-1 basis-1/2 flex-col items-center justify-center rounded-xl border-2 border-accentLight p-4 text-center md:mx-2 md:max-w-96">
             <h2 className="mb-4 mt-3 font-nunito text-xl font-bold text-black">
               Check availability
@@ -94,11 +95,15 @@ function SpecificVenue() {
                 Log in now to book the holiday venue of your dreams!
               </p>
             )}
-            <Link to="/login">
-              <button className="text-md my-4 rounded-lg bg-accent px-5 py-2 font-montserrat font-semibold text-black shadow-lg">
-                Go to login
-              </button>
-            </Link>
+            {isLoggedIn ? (
+              <VenueBookingForm price={venue.data.price} />
+            ) : (
+              <Link to="/login">
+                <button className="text-md my-4 rounded-lg bg-accent px-5 py-2 font-montserrat font-semibold text-black shadow-lg transition-transform duration-200 hover:scale-110">
+                  Go to login
+                </button>
+              </Link>
+            )}
           </div>
           <div className="flex-1 basis-1/2">
             <div className="mb-7 mt-6 px-6 lg:mt-0 lg:px-0">
