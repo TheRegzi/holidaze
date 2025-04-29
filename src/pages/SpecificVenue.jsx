@@ -11,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { capitalizeWords } from "../utils/helpers";
 import VenueMap from "../components/VenueMap";
+import { Link } from "react-router-dom";
 
 function SpecificVenue() {
   const [venue, setVenue] = useState(null);
@@ -82,50 +83,58 @@ function SpecificVenue() {
             </p>
           </div>
         </div>
-        <div className="mx-5 mx-auto my-4 flex w-80 flex-col items-center justify-center rounded-lg border-2 border-accentLight p-4 text-center sm:w-96">
-          <h2 className="mb-2 mt-3 font-nunito text-lg font-bold text-black">
-            Check availability
-          </h2>
-          <p className="text-md mb-2 font-montserrat text-black">
-            <b>{venue.data.price} NOK /</b> night
-          </p>
-          {isLoggedIn ? null : (
-            <p>Log in now to book the holiday venue of your dreams!</p>
-          )}
-          <button>Go to login</button>
-        </div>
-        <div>
-          <div className="px-6">
-            <h2 className="mb-2 mt-3 text-center font-nunito text-lg font-bold text-black">
-              Description
+        <div className="mx-auto flex flex-col justify-around sm:flex-row-reverse lg:w-xl lg:gap-16">
+          <div className="mx-auto my-4 flex w-80 flex-1 basis-1/2 flex-col items-center justify-center rounded-xl border-2 border-accentLight p-4 text-center md:mx-5 md:max-w-96">
+            <h2 className="mb-4 mt-3 font-nunito text-xl font-bold text-black">
+              Check availability
             </h2>
-            <p>{venue.data.description}</p>
+            <p className="text-md mb-2 font-montserrat text-black">
+              <b>{venue.data.price} NOK /</b> night
+            </p>
+            {isLoggedIn ? null : (
+              <p className="my-3 px-2">
+                Log in now to book the holiday venue of your dreams!
+              </p>
+            )}
+            <Link to="/login">
+              <button className="text-md my-4 rounded-lg bg-accent px-5 py-2 font-montserrat font-semibold text-black shadow-lg">
+                Go to login
+              </button>
+            </Link>
           </div>
-          <div>
-            <h2 className="mb-2 mt-3 text-center font-nunito text-lg font-bold text-black">
-              Facilities
-            </h2>
-            <ul className="mx-6 font-montserrat text-black">
-              {Object.entries(venue.data.meta).map(([key, value]) => (
-                <li key={key}>
-                  <FontAwesomeIcon
-                    icon={value ? faCheck : faTimes}
-                    style={{
-                      color: value ? "green" : "red",
-                      marginRight: "8px",
-                    }}
-                  />{" "}
-                  {key.charAt(0).toUpperCase() + key.slice(1)}
-                </li>
-              ))}
-            </ul>
+          <div className="flex-1 basis-1/2">
+            <div className="mb-7 mt-6 px-6 lg:mt-0 lg:px-0">
+              <h2 className="mb-2 mt-3 text-center font-nunito text-xl font-bold text-black">
+                Description
+              </h2>
+              <p className="mt-3">{venue.data.description}</p>
+            </div>
+            <div className="mt-5 px-6 lg:px-0">
+              <h2 className="mb-2 text-center font-nunito text-xl font-bold text-black">
+                Facilities
+              </h2>
+              <ul className="font-montserrat text-black">
+                {Object.entries(venue.data.meta).map(([key, value]) => (
+                  <li key={key}>
+                    <FontAwesomeIcon
+                      icon={value ? faCheck : faTimes}
+                      style={{
+                        color: value ? "green" : "red",
+                        marginRight: "8px",
+                      }}
+                    />{" "}
+                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-        <div>
-          <h2 className="mb-2 mt-3 text-center font-nunito text-lg font-bold text-black">
+        <div className="mt-8">
+          <h2 className="mb-2 text-center font-nunito text-xl font-bold text-black">
             Explore the area
           </h2>
-          <div className="mx-6 mx-auto mb-12 mt-6 text-center sm:w-lg">
+          <div className="mx-6 mx-auto mb-12 mt-5 text-center sm:w-lg">
             <VenueMap venue={venue} />
           </div>
         </div>
