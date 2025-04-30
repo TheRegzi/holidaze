@@ -96,7 +96,10 @@ function SpecificVenue() {
               </p>
             )}
             {isLoggedIn ? (
-              <VenueBookingForm price={venue.data.price} />
+              <VenueBookingForm
+                venueId={venue.data.id}
+                price={venue.data.price}
+              />
             ) : (
               <Link to="/login">
                 <button className="text-md my-4 rounded-lg bg-accent px-5 py-2 font-montserrat font-semibold text-black shadow-lg transition-transform duration-200 hover:scale-110">

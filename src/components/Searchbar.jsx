@@ -57,7 +57,7 @@ function SearchBar({ onSearch }) {
             selectsRange
             placeholderText="Date"
             className="w-full rounded-md border-2 border-accentLight p-2 pl-7 text-sm md:text-base"
-            wrapperClassName="z-50" // Ekstra z-index for wrapper
+            wrapperClassName="z-50"
           />
           <FontAwesomeIcon
             icon={faCalendar}

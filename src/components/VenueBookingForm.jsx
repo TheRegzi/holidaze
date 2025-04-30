@@ -2,10 +2,65 @@ import { useState } from "react";
 import DateRangePicker from "../components/DateRangePicker";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { API_BOOKINGS } from "../utils/constants";
+import { useEffect } from "react";
+import { getHeaders } from "../utils/headers";
 
-export default function VenueBookingForm() {
+function getDatesBetween(start, end) {
+  const dateList = [];
+  let theDate = new Date(start);
+  const lastDate = new Date(end);
+  theDate.setHours(0, 0, 0, 0);
+  lastDate.setHours(0, 0, 0, 0);
+  while (theDate <= lastDate) {
+    dateList.push(new Date(theDate));
+    theDate.setDate(theDate.getDate() + 1);
+  }
+  return dateList;
+}
+
+export default function VenueBookingForm({ venueId }) {
   const [dates, setDates] = useState([null, null]);
   const [guests, setGuests] = useState("");
+  const [bookedDates, setBookedDates] = useState([]);
+
+  useEffect(() => {
+    async function fetchBookings() {
+      if (!venueId) return;
+      const accessToken = localStorage.getItem("accessToken");
+      const apiKey = import.meta.env.VITE_NOROFF_API_KEY;
+      const res = await fetch(`${API_BOOKINGS}?_venue=true`, {
+        headers: getHeaders(apiKey, accessToken),
+      });
+
+      if (!res.ok) {
+        setBookedDates([]);
+        return;
+      }
+
+      const data = await res.json();
+      if (!data?.data) {
+        setBookedDates([]);
+        return;
+      }
+
+      const bookingsForVenue = data.data.filter(
+        (booking) => booking.venue && booking.venue.id === venueId
+      );
+
+      let allBooked = [];
+      for (const booking of bookingsForVenue) {
+        if (booking.dateFrom && booking.dateTo) {
+          allBooked = allBooked.concat(
+            getDatesBetween(booking.dateFrom, booking.dateTo)
+          );
+        }
+      }
+      setBookedDates(allBooked);
+    }
+
+    fetchBookings();
+  }, [venueId]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,11 +70,15 @@ export default function VenueBookingForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+    <form onSubmit={handleSubmit} className="z-10 flex flex-col gap-2">
       <label htmlFor="dates" className="sr-only">
         Dates
       </label>
-      <DateRangePicker value={dates} onChange={setDates} />
+      <DateRangePicker
+        value={dates}
+        onChange={setDates}
+        excludeDates={bookedDates}
+      />
       <label htmlFor="guests" className="sr-only">
         Guests
       </label>

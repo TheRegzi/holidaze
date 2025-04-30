@@ -3,7 +3,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 
-export default function DateRangePicker({ value, onChange }) {
+export default function DateRangePicker({ value, onChange, excludeDates }) {
   return (
     <div className="relative z-50">
       <DatePicker
@@ -12,9 +12,11 @@ export default function DateRangePicker({ value, onChange }) {
         startDate={value[0]}
         endDate={value[1]}
         selectsRange
+        excludeDates={excludeDates}
         placeholderText="Select date"
         className="w-full rounded-md border-2 border-accentLight p-2 pl-7 font-montserrat text-sm shadow-lg md:text-base"
         wrapperClassName="z-50"
+        popperClassName="z-50"
       />
       <FontAwesomeIcon
         icon={faCalendar}
