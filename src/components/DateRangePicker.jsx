@@ -13,6 +13,7 @@ export default function DateRangePicker({ value, onChange, excludeDates }) {
         endDate={value[1]}
         selectsRange
         excludeDates={excludeDates}
+        minDate={new Date()}
         placeholderText="Select date"
         className="w-full rounded-md border-2 border-accentLight p-2 pl-7 font-montserrat text-sm shadow-lg md:text-base"
         wrapperClassName="z-50"

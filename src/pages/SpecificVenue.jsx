@@ -83,7 +83,7 @@ function SpecificVenue() {
           </div>
         </div>
         <div className="mx-auto flex flex-col justify-around sm:flex-row-reverse md:gap-10 lg:w-xl">
-          <div className="mx-auto my-4 flex max-h-72 w-80 flex-1 basis-1/2 flex-col items-center justify-center rounded-xl border-2 border-accentLight p-4 text-center md:mx-2 md:max-w-96">
+          <div className="mx-auto my-4 flex max-h-[350px] w-xs flex-1 basis-1/2 flex-col items-center justify-center rounded-xl border-2 border-accentLight p-4 text-center md:mx-2 md:max-w-96">
             <h2 className="mb-4 mt-3 font-nunito text-xl font-bold text-black">
               Check availability
             </h2>
@@ -99,6 +99,7 @@ function SpecificVenue() {
               <VenueBookingForm
                 venueId={venue.data.id}
                 price={venue.data.price}
+                venueName={venue.data.name}
               />
             ) : (
               <Link to="/login">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -41,12 +41,13 @@ async function geocodeAddress(addressString) {
 export default function VenueMap({ venue }) {
   const location = venue.data.location;
 
-  const addressParts = [
-    location.address,
-    location.city,
-    location.zip,
-    location.country,
-  ].filter(Boolean);
+  const addressParts = useMemo(
+    () =>
+      [location.address, location.city, location.zip, location.country].filter(
+        Boolean
+      ),
+    [location.address, location.city, location.zip, location.country]
+  );
 
   const [coords, setCoords] = useState(
     typeof location.lat === "number" && typeof location.lng === "number"
@@ -66,7 +67,7 @@ export default function VenueMap({ venue }) {
       }
     }
     getCoordsIfNeeded();
-  }, []);
+  }, [coords, addressParts]);
 
   if (loading) return <div>Loading map...</div>;
   if (!coords) return <div>Could not find coordinates</div>;
@@ -75,7 +76,7 @@ export default function VenueMap({ venue }) {
     <MapContainer
       center={[coords.lat, coords.lng]}
       zoom={13}
-      className="h-72 w-full rounded-lg shadow sm:h-96"
+      className="z-10 h-72 w-full rounded-lg shadow sm:h-96"
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker position={[coords.lat, coords.lng]}>
