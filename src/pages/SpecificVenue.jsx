@@ -27,7 +27,6 @@ function SpecificVenue() {
         const response = await fetch(API_VENUE(venueId));
         if (!response.ok) throw new Error("Venue not found");
         const data = await response.json();
-        console.log(data);
         setVenue(data);
       } catch (error) {
         console.error("Error fetching venue:", error);

@@ -1,21 +1,40 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import DateRangePicker from "../components/DateRangePicker";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { API_BOOKINGS } from "../utils/constants";
+import { API_BOOKINGS, API_VENUE } from "../utils/constants";
 import { getHeaders } from "../utils/headers";
 
-function getDatesBetween(start, end) {
+function toLocalMidnight(date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function toUtcMidnight(date) {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  );
+}
+
+function isoToLocalMidnight(isoStr) {
+  const d = new Date(isoStr);
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+function getLocalDatesBetween(startStr, endStr) {
   const dateList = [];
-  let theDate = new Date(start);
-  const lastDate = new Date(end);
-  theDate.setHours(0, 0, 0, 0);
-  lastDate.setHours(0, 0, 0, 0);
-  while (theDate <= lastDate) {
-    dateList.push(new Date(theDate));
-    theDate.setDate(theDate.getDate() + 1);
+  let current = isoToLocalMidnight(startStr);
+  const end = isoToLocalMidnight(endStr);
+  while (current <= end) {
+    dateList.push(new Date(current));
+    current.setDate(current.getDate() + 1);
   }
   return dateList;
+}
+
+function deduplicateDates(arr) {
+  const map = new Map();
+  arr.forEach((date) => map.set(date.getTime(), date));
+  return Array.from(map.values());
 }
 
 export default function VenueBookingForm({ venueId, price, venueName }) {
@@ -26,44 +45,47 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loadingBookings, setLoadingBookings] = useState(false);
+  const apiKey = import.meta.env.VITE_NOROFF_API_KEY;
+  const accessToken = localStorage.getItem("accessToken");
 
-  useEffect(() => {
-    async function fetchBookings() {
-      if (!venueId) return;
-      const accessToken = localStorage.getItem("accessToken");
-      const apiKey = import.meta.env.VITE_NOROFF_API_KEY;
-      const res = await fetch(`${API_BOOKINGS}?_venue=true`, {
+  const localBookedDatesRef = useRef([]);
+
+  const fetchBookings = useCallback(async () => {
+    if (!venueId) return [];
+    setLoadingBookings(true);
+    try {
+      const res = await fetch(`${API_VENUE(venueId)}?_bookings=true`, {
         headers: getHeaders(apiKey, accessToken),
       });
-
-      if (!res.ok) {
-        setBookedDates([]);
-        return;
-      }
-
+      if (!res.ok) throw new Error("Failed to fetch venue bookings");
       const data = await res.json();
-      if (!data?.data) {
-        setBookedDates([]);
-        return;
-      }
-
-      const bookingsForVenue = data.data.filter(
-        (booking) => booking.venue && booking.venue.id === venueId
-      );
-
+      const bookings = data?.data?.bookings || [];
       let allBooked = [];
-      for (const booking of bookingsForVenue) {
+      for (const booking of bookings) {
         if (booking.dateFrom && booking.dateTo) {
-          allBooked = allBooked.concat(
-            getDatesBetween(booking.dateFrom, booking.dateTo)
-          );
+          const dates = getLocalDatesBetween(booking.dateFrom, booking.dateTo);
+          allBooked = allBooked.concat(dates);
         }
       }
-      setBookedDates(allBooked);
+      const mergedDates = deduplicateDates([
+        ...allBooked,
+        ...localBookedDatesRef.current,
+      ]);
+      setBookedDates(mergedDates);
+      return mergedDates;
+    } catch (error) {
+      console.error(error);
+      setBookedDates(deduplicateDates([...localBookedDatesRef.current]));
+      return [];
+    } finally {
+      setLoadingBookings(false);
     }
+  }, [venueId, apiKey, accessToken]);
 
+  useEffect(() => {
     fetchBookings();
-  }, [venueId]);
+  }, [fetchBookings]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -76,24 +98,50 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
     setError("");
     setSuccess(false);
 
-    const accessToken = localStorage.getItem("accessToken");
-    const apiKey = import.meta.env.VITE_NOROFF_API_KEY;
+    const dateFrom = toUtcMidnight(dates[0]).toISOString();
+    const dateTo = toUtcMidnight(dates[1]).toISOString();
+
+    const bookingPayload = {
+      dateFrom,
+      dateTo,
+      guests: Number(guests),
+      venueId,
+    };
+
     try {
       const res = await fetch(API_BOOKINGS, {
         method: "POST",
         headers: getHeaders(apiKey, accessToken),
-        body: JSON.stringify({
-          dateFrom: dates[0].toISOString().split("T")[0],
-          dateTo: dates[1].toISOString().split("T")[0],
-          guests: Number(guests),
-          venueId,
-        }),
+        body: JSON.stringify(bookingPayload),
       });
-      if (!res.ok) throw new Error("Could not create booking.");
+
+      const resBody = await res.json();
+      if (!res.ok) {
+        throw new Error(
+          resBody.errors?.[0]?.message || "Could not create booking"
+        );
+      }
+
+      const datesToAdd = getLocalDatesBetween(
+        resBody.data.dateFrom,
+        resBody.data.dateTo
+      );
+      localBookedDatesRef.current = deduplicateDates([
+        ...localBookedDatesRef.current,
+        ...datesToAdd,
+      ]);
+      setBookedDates(deduplicateDates([...bookedDates, ...datesToAdd]));
+
+      setTimeout(async () => {
+        await fetchBookings();
+      }, 1500);
+
       setSuccess(true);
       setShowModal(false);
-    } catch {
-      setError("Booking failed. Please try again.");
+      setDates([null, null]);
+      setGuests("");
+    } catch (error) {
+      setError(error.message);
     } finally {
       setCreating(false);
     }
@@ -104,8 +152,22 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
     setError("");
   }
 
+  const dateFilter = (date) => {
+    const localDate = toLocalMidnight(date);
+    return !bookedDates.some(
+      (bookedDate) =>
+        toLocalMidnight(bookedDate).getTime() === localDate.getTime()
+    );
+  };
+
   return (
     <div className="relative">
+      {loadingBookings && (
+        <div className="mb-4 text-center">
+          <span className="mr-2 inline-block animate-spin">&#8635;</span>
+          Loading booking data...
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="z-10 flex flex-col gap-2">
         <label htmlFor="dates" className="sr-only">
           Dates
@@ -114,6 +176,11 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
           value={dates}
           onChange={setDates}
           excludeDates={bookedDates}
+          selectsRange
+          minDate={toUtcMidnight(new Date())}
+          shouldCloseOnSelect={true}
+          dateFormat="dd/MM/yyyy"
+          filterDate={dateFilter}
         />
         <label htmlFor="guests" className="sr-only">
           Guests
@@ -151,7 +218,7 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
             className="fixed inset-0 z-50 bg-black bg-opacity-30 backdrop-blur-sm"
             onClick={closeModal}
           ></div>
-          <div className="fixed left-1/2 top-1/2 z-50 flex h-[530px] w-[340px] -translate-x-1/2 -translate-y-1/2 flex-col justify-center bg-white p-6 text-left text-black shadow-xl sm:h-[450px] sm:w-md sm:px-28">
+          <div className="fixed left-1/2 top-1/2 z-50 flex h-[600px] w-[340px] -translate-x-1/2 -translate-y-1/2 flex-col justify-center bg-white p-6 text-left text-black shadow-xl sm:h-[450px] sm:w-md sm:px-28">
             <h2 className="mb-4 text-center font-nunito text-xl font-bold text-shadow-lg">
               Confirm booking
             </h2>
@@ -168,19 +235,20 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
             <p className="mb-4 font-openSans">
               <b>Selected dates: </b>
               {dates[0] &&
-                dates[0].toLocaleDateString("nb-NO", {
+                toUtcMidnight(dates[0]).toLocaleDateString("nb-NO", {
                   day: "2-digit",
                   month: "2-digit",
                   year: "numeric",
                 })}
               {dates[1] &&
-                ` - ${dates[1].toLocaleDateString("nb-NO", { day: "2-digit", month: "2-digit", year: "numeric" })}`}
+                ` - ${toUtcMidnight(dates[1]).toLocaleDateString("nb-NO", { day: "2-digit", month: "2-digit", year: "numeric" })}`}
             </p>
             {price && (
               <p className="font-openSans">
                 <b>Price:</b> {price} NOK ×{" "}
                 {dates[0] && dates[1]
-                  ? (dates[1] - dates[0]) / (1000 * 60 * 60 * 24)
+                  ? (toUtcMidnight(dates[1]) - toUtcMidnight(dates[0])) /
+                    (1000 * 60 * 60 * 24)
                   : 0}{" "}
                 nights ({guests} {guests > 1 ? "guests" : "guest"})
               </p>
@@ -189,7 +257,9 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
               Total price:{" "}
               <b>
                 {price && dates[0] && dates[1]
-                  ? price * ((dates[1] - dates[0]) / (1000 * 60 * 60 * 24))
+                  ? price *
+                    ((toUtcMidnight(dates[1]) - toUtcMidnight(dates[0])) /
+                      (1000 * 60 * 60 * 24))
                   : 0}{" "}
                 NOK
               </b>

@@ -9,7 +9,11 @@ export default function ImageCarousel({ media }) {
   const [index, setIndex] = useState(0);
 
   if (!media || media.length === 0) {
-    return <div>No images available.</div>;
+    return (
+      <div className="mt-6 text-center font-openSans font-medium">
+        No images available.
+      </div>
+    );
   }
 
   function prev() {
