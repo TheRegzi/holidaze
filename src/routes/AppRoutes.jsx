@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import SpecificVenue from "../pages/SpecificVenue";
+import Profile from "../pages/Profile";
 
 function AppRoutes() {
   return (
@@ -13,6 +14,7 @@ function AppRoutes() {
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
         <Route path="specific-venue/:id" element={<SpecificVenue />} />
+        <Route path="profile" element={<Profile />} />
       </Route>
     </Routes>
   );
