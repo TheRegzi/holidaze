@@ -46,6 +46,8 @@ function SpecificVenue() {
     return <div>Venue not found</div>;
   }
 
+  console.log("Venue data:", venue);
+
   return (
     <div>
       <div>
@@ -79,12 +81,15 @@ function SpecificVenue() {
           </div>
         </div>
         <div className="mx-auto flex flex-col justify-around sm:flex-row-reverse md:gap-10 lg:w-xl">
-          <div className="mx-auto my-4 flex max-h-[350px] w-[330px] flex-1 basis-1/2 flex-col items-center justify-center rounded-xl border-2 border-accentLight p-4 text-center md:mx-2 md:max-w-96">
+          <div className="mx-auto my-4 flex max-h-[370px] w-[330px] flex-1 basis-1/2 flex-col items-center justify-center rounded-2xl border-2 border-accentLight p-4 py-6 text-center md:mx-2 md:max-w-96">
             <h2 className="mb-4 mt-3 font-nunito text-xl font-bold text-black">
               Check availability
             </h2>
-            <p className="text-md mb-2 font-montserrat text-black">
+            <p className="text-md mb-4 font-montserrat text-black">
               <b>{venue.data.price} NOK /</b> night
+            </p>
+            <p className="text-md mb-2 font-montserrat text-black">
+              <b>Max:</b> {venue.data.maxGuests} guests
             </p>
             <VenueBookingForm
               venueId={venue.data.id}

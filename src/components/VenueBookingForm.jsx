@@ -209,7 +209,7 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
         {isLoggedIn ? (
           <button
             type="submit"
-            className="mb-5 mt-3 rounded-lg bg-accent px-5 py-2 font-montserrat font-semibold text-black shadow-lg transition-transform hover:scale-105"
+            className="mb-2 mt-3 rounded-lg bg-accent px-5 py-2 font-montserrat font-semibold text-black shadow-lg transition-transform hover:scale-105"
             disabled={!dates[0] || !dates[1] || !guests}
           >
             Book now!
