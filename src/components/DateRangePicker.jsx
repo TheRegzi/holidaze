@@ -17,7 +17,7 @@ export default function DateRangePicker({ value, onChange, excludeDates }) {
     .filter((date) => date !== null);
 
   return (
-    <div className="relative z-50">
+    <div className="relative z-50 w-full">
       <DatePicker
         selected={value[0]}
         onChange={onChange}
@@ -27,13 +27,13 @@ export default function DateRangePicker({ value, onChange, excludeDates }) {
         excludeDates={processedExcludeDates}
         minDate={new Date()}
         placeholderText="Select date"
-        className="w-full rounded-md border-2 border-accentLight p-2 pl-7 font-montserrat text-sm shadow-lg md:text-base"
-        wrapperClassName="z-50"
+        className="text-md w-full rounded-md border-2 border-accentLight p-2 pl-7 font-montserrat shadow-lg"
+        wrapperClassName="w-full"
         popperClassName="z-50"
       />
       <FontAwesomeIcon
         icon={faCalendar}
-        className="absolute left-3 top-1/2 -translate-y-1/2 transform text-sm text-gray-400"
+        className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-400"
       />
     </div>
   );
