@@ -94,18 +94,18 @@ export default function UpdateProfileModal({
               placeholder="Enter banner image URL"
             />
           </div>
-          <div className="mt-7 flex">
+          <div className="mx-auto mt-7 flex flex-col items-center justify-center gap-3 md:flex-row md:gap-4">
             <button
               type="submit"
               disabled={loading}
-              className="mx-auto rounded-xl bg-accent px-7 py-2 font-montserrat text-lg font-semibold shadow transition-transform hover:scale-105"
+              className="w-[200px] rounded-xl bg-accent py-2 font-montserrat text-lg font-semibold shadow shadow-lg transition-transform hover:scale-105"
             >
               {loading ? "Updating..." : "Update profile"}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="ml-4 rounded-xl border-2 border-darkGrey bg-white px-7 py-2 font-montserrat text-lg font-semibold shadow transition-transform hover:scale-105"
+              className="w-[200px] rounded-xl border-2 border-darkGrey bg-white py-2 font-montserrat text-lg font-semibold shadow shadow-lg transition-transform hover:scale-105"
             >
               Cancel
             </button>

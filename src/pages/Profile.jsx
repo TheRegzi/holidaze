@@ -44,13 +44,6 @@ function Profile() {
 
   return (
     <div>
-      <UpdateProfileModal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        userData={userdata}
-        apiKey={apiKey}
-        token={token}
-      />
       <div className="mx-auto rounded-b-3xl border-2 border-accentLight shadow-lg lg:w-xl">
         <div className="relative">
           <img
@@ -59,7 +52,7 @@ function Profile() {
             alt={userdata.banner.alt || "Profile Banner image"}
           />
           <img
-            className="absolute -bottom-24 left-1/2 h-52 w-52 -translate-x-1/2 rounded-full shadow-lg"
+            className="absolute -bottom-24 left-1/2 h-52 w-52 -translate-x-1/2 rounded-full object-cover shadow-lg"
             src={userdata.avatar.url}
             alt={userdata.avatar.alt || "Profile Avatar image"}
           />
@@ -78,6 +71,13 @@ function Profile() {
           </div>
         </div>
       </div>
+      <UpdateProfileModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        userData={userdata}
+        apiKey={apiKey}
+        token={token}
+      />
       <div>
         <h2 className="mt-8 text-center font-nunito text-2xl font-bold">
           My bookings
