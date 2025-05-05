@@ -5,6 +5,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { API_BOOKINGS, API_VENUE } from "../utils/constants";
 import { getHeaders } from "../utils/headers";
 import { Link } from "react-router-dom";
+import { formatTitle, formatDate } from "../utils/helpers";
 
 function toLocalMidnight(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -238,7 +239,7 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
       {showModal && (
         <>
           <div
-            className="fixed inset-0 z-50 bg-black bg-opacity-30 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-black bg-opacity-20 backdrop-blur-sm"
             onClick={closeModal}
           ></div>
           <div className="fixed left-1/2 top-1/2 z-50 flex h-[600px] w-[340px] -translate-x-1/2 -translate-y-1/2 flex-col justify-center bg-white p-6 text-left text-black shadow-xl sm:h-[450px] sm:w-md sm:px-28">
@@ -250,21 +251,12 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
               the booking is correct.
             </p>
             <p className="mb-4 font-openSans">
-              <b>Venue:</b>{" "}
-              {venueName.length > 20
-                ? venueName.substring(0, 30) + "..."
-                : venueName}
+              <b>Venue:</b> {formatTitle(venueName)}
             </p>
             <p className="mb-4 font-openSans">
               <b>Selected dates: </b>
-              {dates[0] &&
-                toUtcMidnight(dates[0]).toLocaleDateString("nb-NO", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })}
-              {dates[1] &&
-                ` - ${toUtcMidnight(dates[1]).toLocaleDateString("nb-NO", { day: "2-digit", month: "2-digit", year: "numeric" })}`}
+              {dates[0] && formatDate(dates[0])} -{" "}
+              {dates[1] && formatDate(dates[1])}
             </p>
             {price && (
               <p className="font-openSans">

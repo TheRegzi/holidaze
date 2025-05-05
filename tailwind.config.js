@@ -11,6 +11,7 @@ export default {
         accent: "#FF9800",
         accentLight: "#FFCC80",
         accentLight2: "#FFEFD7",
+        accentLight3: "#FFDFAF",
         accentDark: "#E65100",
         red: "#D23D0F",
         green: "#31A706",
