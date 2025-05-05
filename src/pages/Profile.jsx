@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { formatTitle, formatDate } from "../utils/helpers";
 import { useState } from "react";
 import UpdateProfileModal from "../components/EditProfileModal";
+import AddVenueModal from "../components/AddVenueModal";
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -10,7 +11,7 @@ function Profile() {
   const token = localStorage.getItem("accessToken");
   const apiKey = import.meta.env.VITE_NOROFF_API_KEY;
   const { userdata, error } = useProfileData(userName, apiKey, token);
-  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState("");
 
   if (!userName)
     return (
@@ -42,6 +43,8 @@ function Profile() {
     (a, b) => new Date(a.dateFrom) - new Date(b.dateFrom)
   );
 
+  const isVenueManager = userdata.venueManager === true;
+
   return (
     <div>
       <div className="mx-auto rounded-b-3xl border-2 border-accentLight shadow-lg lg:w-xl">
@@ -57,23 +60,40 @@ function Profile() {
             alt={userdata.avatar.alt || "Profile Avatar image"}
           />
         </div>
-        <div className="pt-28">
+        <div className="mb-10 pt-28">
           <h1 className="my-5 text-center font-nunito text-3xl font-semibold text-shadow-lg">
             {userdata.name}
           </h1>
-          <div className="mb-9 mt-3 flex justify-center">
+          <div className="mt-4 flex justify-center">
             <button
-              onClick={() => setShowModal(true)}
+              onClick={() => setModalType("profile")}
               className="hover:pointer rounded-xl border-2 border-accentLight bg-white px-7 py-2 text-center font-montserrat text-lg font-semibold shadow-lg transition-transform hover:scale-105"
             >
               Edit profile
             </button>
           </div>
+          {isVenueManager ? (
+            <div className="mt-3 flex justify-center">
+              <button
+                onClick={() => setModalType("venue")}
+                className="hover:pointer rounded-xl border-2 border-accent bg-accent px-7 py-2 text-center font-montserrat text-lg font-semibold shadow-lg transition-transform hover:scale-105"
+              >
+                Add Venue
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
       <UpdateProfileModal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
+        isOpen={modalType === "profile"}
+        onClose={() => setModalType("")}
+        userData={userdata}
+        apiKey={apiKey}
+        token={token}
+      />
+      <AddVenueModal
+        isOpen={modalType === "venue"}
+        onClose={() => setModalType("")}
         userData={userdata}
         apiKey={apiKey}
         token={token}
