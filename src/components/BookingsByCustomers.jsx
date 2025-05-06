@@ -3,11 +3,11 @@ import { formatDate } from "../utils/helpers";
 function BookingsByCustomers({ bookings }) {
   return (
     <div>
-      <h2 className="mb-4 mt-3 text-center font-nunito text-xl font-bold text-black">
+      <h2 className="mb-3 mt-3 text-center font-nunito text-xl font-bold text-black">
         Bookings By Customers
       </h2>
-      <div className="overflow-x-auto">
-        <table className="mx-auto w-[400px] rounded-2xl border-2 border-accentLight bg-white">
+      <div className="overflow-x-auto rounded-lg">
+        <table className="mx-auto border-2 border-accentLight bg-white sm:w-[400px]">
           <thead>
             <tr className="bg-accentLight text-black">
               <th className="px-4 py-2 text-left font-nunito text-lg font-bold">

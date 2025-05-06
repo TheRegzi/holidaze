@@ -88,7 +88,7 @@ function SpecificVenue() {
             </p>
           </div>
         </div>
-        <div className="mx-auto flex flex-col justify-around sm:flex-row-reverse md:gap-10 lg:w-xl">
+        <div className="mx-auto flex flex-col justify-around md:flex-row-reverse md:gap-10 lg:w-xl">
           {isOwner ? (
             <BookingsByCustomers bookings={venue.data.bookings} />
           ) : null}
