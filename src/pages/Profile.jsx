@@ -4,6 +4,9 @@ import { formatTitle, formatDate } from "../utils/helpers";
 import { useState } from "react";
 import UpdateProfileModal from "../components/EditProfileModal";
 import AddVenueModal from "../components/AddVenueModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { capitalizeWords } from "../utils/helpers";
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -98,6 +101,58 @@ function Profile() {
         apiKey={apiKey}
         token={token}
       />
+      {isVenueManager ? (
+        <div>
+          <h2 className="mt-8 text-center font-nunito text-2xl font-bold text-shadow-lg">
+            My venues
+          </h2>
+          <div className="container mx-auto mt-2 flex flex-col items-center">
+            {userdata.venues && userdata.venues.length > 0 ? (
+              <ul className="mx-auto mb-5 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+                {userdata.venues.map((v) => (
+                  <li
+                    key={v.id}
+                    className="mx-auto mt-5 rounded-b-xl bg-secondary shadow-lg transition-transform hover:scale-105"
+                  >
+                    <Link to={`/specific-venue/${v.id}`}>
+                      <img
+                        className="h-[220px] w-[350px] rounded-t-xl object-cover lg:w-[420px]"
+                        src={v.media?.[0]?.url || "/placeholder.jpg"}
+                        alt={v.media?.[0]?.alt || v.name || "Venue image"}
+                      />
+                      <div className="p-3 text-black">
+                        <h3 className="font-nunito text-lg font-semibold text-shadow-lg">
+                          {formatTitle(v.name)}
+                        </h3>
+                        <p className="text-md font-openSans">
+                          <b>{v.price} NOK</b> /night
+                        </p>
+                        <p className="text-md font-openSans">
+                          <FontAwesomeIcon
+                            icon={faLocationDot}
+                            className="mr-1.5 text-sm text-accentDark"
+                          />
+                          {v.location?.city && v.location?.country
+                            ? `${capitalizeWords(v.location.city)}, ${capitalizeWords(v.location.country)}`
+                            : v.location?.city
+                              ? capitalizeWords(v.location.city)
+                              : v.location?.country
+                                ? capitalizeWords(v.location.country)
+                                : "No location stated"}
+                        </p>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="text-md text-center font-openSans font-semibold text-black">
+                You have no venues yet.
+              </div>
+            )}
+          </div>
+        </div>
+      ) : null}
       <div>
         <h2 className="mt-8 text-center font-nunito text-2xl font-bold text-shadow-lg">
           My upcoming bookings

@@ -317,7 +317,7 @@ function AddVenueModal({ isOpen, onClose, userData, apiKey, token }) {
             <button
               type="submit"
               disabled={loading}
-              className="w-[200px] rounded-xl bg-accent py-2 font-montserrat text-lg font-semibold shadow shadow-lg transition-transform hover:scale-105"
+              className="w-[200px] rounded-xl border-2 border-accent bg-accent py-2 font-montserrat text-lg font-semibold shadow shadow-lg transition-transform hover:scale-105"
             >
               {loading ? "Adding venue..." : "Add Venue"}
             </button>
