@@ -72,7 +72,7 @@ export default function UpdateProfileModal({
             <input
               id="profileImageUrl"
               name="profileImageUrl"
-              type="text"
+              type="url"
               defaultValue={userData?.avatar.url}
               className="w-full rounded-lg border-2 border-accentLight3 px-3 py-2 font-openSans"
               placeholder="Enter profile image URL"
@@ -88,7 +88,7 @@ export default function UpdateProfileModal({
             <input
               id="bannerImageUrl"
               name="bannerImageUrl"
-              type="text"
+              type="url"
               defaultValue={userData?.banner.url}
               className="w-full rounded-lg border-2 border-accentLight3 px-3 py-2 font-openSans"
               placeholder="Enter banner image URL"

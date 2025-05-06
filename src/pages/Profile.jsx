@@ -69,7 +69,7 @@ function Profile() {
               onClick={() => setModalType("profile")}
               className="hover:pointer rounded-xl border-2 border-accentLight bg-white px-7 py-2 text-center font-montserrat text-lg font-semibold shadow-lg transition-transform hover:scale-105"
             >
-              Edit profile
+              Edit Profile
             </button>
           </div>
           {isVenueManager ? (
@@ -99,8 +99,8 @@ function Profile() {
         token={token}
       />
       <div>
-        <h2 className="mt-8 text-center font-nunito text-2xl font-bold">
-          My bookings
+        <h2 className="mt-8 text-center font-nunito text-2xl font-bold text-shadow-lg">
+          My upcoming bookings
         </h2>
         {error && <div className="text-red">{error}</div>}
         {activeBookings.length === 0 && (
@@ -118,7 +118,7 @@ function Profile() {
                 >
                   <Link to={`/specific-venue/${b.venue.id}`} key={b.id}>
                     <img
-                      className="h-[220px] w-[350px] rounded-t-xl lg:w-[420px]"
+                      className="h-[220px] w-[350px] rounded-t-xl object-cover lg:w-[420px]"
                       src={b.venue.media[0]?.url}
                     ></img>
                     <div className="p-3 text-black">
