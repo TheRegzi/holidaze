@@ -3,7 +3,8 @@ export const capitalizeWords = (str) => {
     .toLowerCase()
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+    .join(" ")
+    .slice(0, 18);
 };
 
 export function formatTitle(str) {

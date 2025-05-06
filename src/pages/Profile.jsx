@@ -1,12 +1,11 @@
 import { useProfileData } from "../api/profile/fetchProfileData";
 import { Link } from "react-router-dom";
-import { formatTitle, formatDate } from "../utils/helpers";
+import { formatTitle, formatDate, capitalizeWords } from "../utils/helpers";
 import { useState } from "react";
 import UpdateProfileModal from "../components/EditProfileModal";
 import AddVenueModal from "../components/AddVenueModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import { capitalizeWords } from "../utils/helpers";
+import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -120,10 +119,23 @@ function Profile() {
                         src={v.media?.[0]?.url || "/placeholder.jpg"}
                         alt={v.media?.[0]?.alt || v.name || "Venue image"}
                       />
-                      <div className="p-3 text-black">
-                        <h3 className="font-nunito text-lg font-semibold text-shadow-lg">
-                          {formatTitle(v.name)}
-                        </h3>
+                      <div className="relative z-20 p-3">
+                        <div className="flex justify-between">
+                          <div>
+                            <h3 className="font-nunito text-xl font-semibold text-shadow-lg">
+                              {formatTitle(v.name)}
+                            </h3>
+                          </div>
+                          <div>
+                            <p className="font-montserrat font-medium">
+                              {v.rating}/5{" "}
+                              <FontAwesomeIcon
+                                icon={faStar}
+                                className="mr-1 text-accentDark"
+                              />
+                            </p>
+                          </div>
+                        </div>
                         <p className="text-md font-openSans">
                           <b>{v.price} NOK</b> /night
                         </p>

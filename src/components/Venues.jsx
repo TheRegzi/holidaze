@@ -175,7 +175,7 @@ const VenueCard = ({ venue }) => {
         <div className="relative z-20 px-4 py-2">
           <div className="flex justify-between">
             <div>
-              <h3 className="font-nunito text-xl font-semibold">
+              <h3 className="font-nunito text-xl font-semibold text-shadow-lg">
                 {venue.name.length > 20
                   ? `${venue.name.slice(0, 20)}...`
                   : venue.name}
