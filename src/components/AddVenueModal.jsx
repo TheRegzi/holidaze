@@ -9,7 +9,7 @@ async function addVenue({ body, token, apiKey }) {
     headers: getHeaders(apiKey, token),
     body: JSON.stringify(body),
   });
-  if (!res.ok) throw new Error("Failed to update profile");
+  if (!res.ok) throw new Error("Failed to add venue");
   return await res.json();
 }
 
@@ -76,8 +76,8 @@ function AddVenueModal({ isOpen, onClose, userData, apiKey, token }) {
         navigate(`/specific-venue/${venueData.data.id}`);
       }, 1200);
     } catch (err) {
-      setError("Could not update profile.");
-      console.error("Error updating profile:", err);
+      setError("Could not add venue.");
+      console.error("Error adding venue:", err);
     } finally {
       setLoading(false);
     }
@@ -89,7 +89,6 @@ function AddVenueModal({ isOpen, onClose, userData, apiKey, token }) {
         <h2 className="mb-6 text-center font-nunito text-3xl font-semibold text-shadow-lg">
           Add new venue
         </h2>
-        {error && <div className="text-red-500 mb-4">{error}</div>}
         <form onSubmit={handleAddVenue} className="mx-auto max-w-[500px]">
           <div className="mb-4">
             <label

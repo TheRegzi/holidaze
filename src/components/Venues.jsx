@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 import { API_VENUES } from "../utils/constants";
-import { capitalizeWords } from "../utils/helpers";
+import { capitalizeWords, formatTitle } from "../utils/helpers";
 
 const VenueList = ({ searchParams }) => {
   const [venues, setVenues] = useState([]);
@@ -131,13 +131,17 @@ const VenueList = ({ searchParams }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [hasMore, loading]);
 
+  const sortedVenues = [...venues].sort(
+    (a, b) => new Date(b.created) - new Date(a.created)
+  );
+
   return (
     <div className="container mx-auto px-4">
       <h2 className="mb-7 text-center font-nunito text-3xl font-semibold text-shadow-lg">
         Venues
       </h2>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {venues.map((venue) => (
+        {sortedVenues.map((venue) => (
           <VenueCard key={venue.id} venue={venue} />
         ))}
       </div>
@@ -176,9 +180,7 @@ const VenueCard = ({ venue }) => {
           <div className="flex justify-between">
             <div>
               <h3 className="font-nunito text-xl font-semibold text-shadow-lg">
-                {venue.name.length > 20
-                  ? `${venue.name.slice(0, 20)}...`
-                  : venue.name}
+                {formatTitle(venue.name)}
               </h3>
             </div>
             <div>

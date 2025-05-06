@@ -13,7 +13,7 @@ export function formatTitle(str) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
   return capitalized.length > 25
-    ? capitalized.slice(0, 25).trim()
+    ? capitalized.slice(0, 20).trim() + "..."
     : capitalized;
 }
 

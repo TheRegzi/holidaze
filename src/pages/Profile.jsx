@@ -45,6 +45,10 @@ function Profile() {
     (a, b) => new Date(a.dateFrom) - new Date(b.dateFrom)
   );
 
+  const sortedVenues = [...userdata.venues].sort(
+    (a, b) => new Date(b.created) - new Date(a.created)
+  );
+
   const isVenueManager = userdata.venueManager === true;
 
   return (
@@ -108,7 +112,7 @@ function Profile() {
           <div className="container mx-auto mt-2 flex flex-col items-center">
             {userdata.venues && userdata.venues.length > 0 ? (
               <ul className="mx-auto mb-5 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-                {userdata.venues.map((v) => (
+                {sortedVenues.map((v) => (
                   <li
                     key={v.id}
                     className="mx-auto mt-5 rounded-b-xl bg-secondary shadow-lg transition-transform hover:scale-105"
