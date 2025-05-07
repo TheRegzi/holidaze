@@ -113,10 +113,9 @@ function AddVenueModal({ isOpen, onClose, userData, apiKey, token }) {
             >
               Description
             </label>
-            <input
+            <textarea
               id="venueDescription"
               name="venueDescription"
-              type="text"
               className="mt-1 w-full rounded-lg border-2 border-accentLight3 px-3 py-2 font-openSans"
               placeholder="Enter venue description"
               required
