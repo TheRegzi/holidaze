@@ -93,6 +93,18 @@ function SpecificVenue() {
         <div className="mx-auto flex flex-col justify-around md:flex-row-reverse md:gap-10 lg:w-xl">
           {isOwner ? (
             <div>
+              <div className="mx-auto mb-3 mt-2 flex w-[350px] flex-row justify-around rounded-lg border-2 border-accentLight py-2 font-nunito text-lg md:w-full">
+                <div>
+                  <p>
+                    <b>Max guests:</b> {venue.data.maxGuests}
+                  </p>
+                </div>
+                <div>
+                  <p>
+                    <b>{venue.data.price} NOK /</b>night
+                  </p>
+                </div>
+              </div>
               <div className="mx-auto flex w-[350px] flex-row justify-center gap-5">
                 <EditVenue venue={venue} />
                 <DeleteVenue id={venue.data.id} />
