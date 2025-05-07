@@ -5,14 +5,24 @@ import { getHeaders } from "../../utils/headers";
 export function useProfileData(userName, apiKey, token) {
   const [userdata, setUserData] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setError(null);
+    setUserData(null);
+
     if (!userName) {
-      setError("No profile name found.");
+      setError("No profile name found. Please log in to continue.");
+      return;
+    }
+
+    if (!token) {
+      setError("You are not logged in. Please log in to continue.");
       return;
     }
 
     const fetchUserData = async () => {
+      setLoading(true);
       try {
         const response = await fetch(
           `${API_PROFILE(userName)}?_bookings=true&_venues=true`,
@@ -23,18 +33,29 @@ export function useProfileData(userName, apiKey, token) {
         );
 
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          let errorMessage = "Network response was not ok";
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.error || errorData.message || errorMessage;
+          } catch {
+            /* intentionally empty: ignore JSON parsing error */
+          }
+          throw new Error(errorMessage);
         }
+
         const data = await response.json();
         setUserData(data.data);
-      } catch (error) {
-        setError(error.message);
-        console.error("Error fetching user data:", error);
+      } catch (err) {
+        setUserData(null);
+        setError(err.message || "Unknown error fetching user data");
+        console.error("Error fetching user data:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUserData();
   }, [userName, apiKey, token]);
 
-  return { userdata, error };
+  return { userdata, error, loading };
 }

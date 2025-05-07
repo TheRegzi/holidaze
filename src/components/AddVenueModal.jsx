@@ -328,7 +328,7 @@ function AddVenueModal({ isOpen, onClose, userData, apiKey, token }) {
             </button>
           </div>
           {success && (
-            <div className="mb-t text-center font-semibold text-green">
+            <div className="mt-4 text-center font-openSans font-semibold text-green">
               <p>{success}</p>
             </div>
           )}

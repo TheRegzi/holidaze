@@ -28,7 +28,6 @@ function DeleteVenue({ id }) {
       setSuccess("Venue deleted.");
       setTimeout(() => {
         setSuccess(null);
-
         navigate("/profile");
       }, 1200);
     } catch (err) {
