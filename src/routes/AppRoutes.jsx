@@ -5,6 +5,7 @@ import Register from "../pages/Register";
 import Login from "../pages/Login";
 import SpecificVenue from "../pages/SpecificVenue";
 import Profile from "../pages/Profile";
+import ErrorPage from "../pages/ErrorPage";
 
 function AppRoutes() {
   return (
@@ -15,6 +16,7 @@ function AppRoutes() {
         <Route path="login" element={<Login />} />
         <Route path="specific-venue/:id" element={<SpecificVenue />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="*" element={<ErrorPage />} />
       </Route>
     </Routes>
   );
