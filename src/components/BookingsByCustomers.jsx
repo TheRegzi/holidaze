@@ -19,7 +19,7 @@ function BookingsByCustomers({ bookings }) {
 
   return (
     <div>
-      <h2 className="mb-3 mt-3 text-center font-nunito text-xl font-bold text-black">
+      <h2 className="mb-3 mt-5 text-center font-nunito text-xl font-bold text-black">
         Bookings By Customers
       </h2>
       <div className="mx-auto w-[365px] max-w-full overflow-hidden rounded-xl border-2 border-accentLight bg-white sm:w-[400px]">

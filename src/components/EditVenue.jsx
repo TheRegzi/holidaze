@@ -159,7 +159,7 @@ function EditVenue({ venue }) {
   return (
     <div>
       <button
-        className="tramsition-transform w-[160px] rounded-lg bg-accent p-2 font-montserrat font-semibold hover:scale-105"
+        className="tramsition-transform mt-2 w-[170px] rounded-lg border-2 border-accent bg-accent p-2 font-montserrat font-semibold shadow-lg hover:scale-105"
         onClick={handleOpenModal}
       >
         Edit venue

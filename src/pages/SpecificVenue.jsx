@@ -15,6 +15,7 @@ import ImageCarousel from "../components/ImageCarousel";
 import VenueBookingForm from "../components/VenueBookingForm";
 import BookingsByCustomers from "../components/BookingsByCustomers";
 import EditVenue from "../components/EditVenue";
+import DeleteVenue from "../components/DeleteVenue";
 
 function SpecificVenue() {
   const [venue, setVenue] = useState(null);
@@ -92,7 +93,10 @@ function SpecificVenue() {
         <div className="mx-auto flex flex-col justify-around md:flex-row-reverse md:gap-10 lg:w-xl">
           {isOwner ? (
             <div>
-              <EditVenue venue={venue} />
+              <div className="mx-auto flex w-[350px] flex-row justify-center gap-5">
+                <EditVenue venue={venue} />
+                <DeleteVenue id={venue.data.id} />
+              </div>
               <BookingsByCustomers bookings={venue.data.bookings} />
             </div>
           ) : null}
@@ -118,13 +122,13 @@ function SpecificVenue() {
           )}
           <div className="flex-1 basis-1/2">
             <div className="mb-7 mt-6 px-6 lg:mt-0 lg:px-0">
-              <h2 className="mb-2 mt-3 text-center font-nunito text-xl font-bold text-black">
+              <h2 className="mb-2 mt-3 text-left font-nunito text-xl font-bold text-black">
                 Description
               </h2>
               <p className="mt-3">{venue.data.description}</p>
             </div>
             <div className="mt-5 px-6 lg:px-0">
-              <h2 className="mb-2 text-center font-nunito text-xl font-bold text-black">
+              <h2 className="mb-4 text-left font-nunito text-xl font-bold text-black">
                 Facilities
               </h2>
               <ul className="font-montserrat text-black">
