@@ -14,6 +14,7 @@ import VenueMap from "../components/VenueMap";
 import ImageCarousel from "../components/ImageCarousel";
 import VenueBookingForm from "../components/VenueBookingForm";
 import BookingsByCustomers from "../components/BookingsByCustomers";
+import EditVenue from "../components/EditVenue";
 
 function SpecificVenue() {
   const [venue, setVenue] = useState(null);
@@ -90,7 +91,10 @@ function SpecificVenue() {
         </div>
         <div className="mx-auto flex flex-col justify-around md:flex-row-reverse md:gap-10 lg:w-xl">
           {isOwner ? (
-            <BookingsByCustomers bookings={venue.data.bookings} />
+            <div>
+              <EditVenue venue={venue} />
+              <BookingsByCustomers bookings={venue.data.bookings} />
+            </div>
           ) : null}
           {isOwner ? null : (
             <div className="mx-auto my-4 flex max-h-[370px] w-[330px] flex-1 basis-1/2 flex-col items-center justify-center rounded-2xl border-2 border-accentLight p-4 py-6 text-center md:mx-2 md:max-w-96">
