@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 function ErrorPage() {
   return (
@@ -22,9 +23,11 @@ function ErrorPage() {
         </p>
       </div>
       <div className="mx-auto text-center">
-        <button className="my-8 rounded-lg bg-accent px-5 py-2 font-montserrat font-semibold shadow-lg">
-          Go back to Home
-        </button>
+        <Link to={"/"}>
+          <button className="my-8 rounded-lg bg-accent px-5 py-3 font-montserrat text-xl font-semibold shadow-lg transition-transform hover:scale-105">
+            Go back to Home
+          </button>
+        </Link>
       </div>
     </div>
   );
