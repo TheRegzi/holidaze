@@ -9,6 +9,8 @@ function ErrorPage() {
         <FontAwesomeIcon
           icon={faCircleExclamation}
           className="text-9xl text-red"
+          aria-label="Error icon"
+          role="img"
         />
       </div>
       <div className="align-center mx-auto w-sm justify-center text-center">
@@ -23,10 +25,11 @@ function ErrorPage() {
         </p>
       </div>
       <div className="mx-auto text-center">
-        <Link to={"/"}>
-          <button className="my-8 rounded-lg bg-accent px-5 py-3 font-montserrat text-xl font-semibold shadow-lg transition-transform hover:scale-105">
-            Go back to Home
-          </button>
+        <Link
+          to="/"
+          className="my-8 inline-block rounded-lg bg-accent px-5 py-3 font-montserrat text-xl font-semibold shadow-lg transition-transform hover:scale-105"
+        >
+          Go back to Home
         </Link>
       </div>
     </div>
