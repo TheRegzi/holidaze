@@ -20,6 +20,7 @@ import DeleteVenue from "../components/DeleteVenue";
 function SpecificVenue() {
   const [venue, setVenue] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const { id: venueId } = useParams();
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -36,7 +37,11 @@ function SpecificVenue() {
         const data = await response.json();
         setVenue(data);
       } catch (error) {
-        console.error("Error fetching venue:", error);
+        if (error.message === "Failed to fetch") {
+          setError("Network error. Please check your internet connection.");
+        } else {
+          setError(error.message || "Error fetching venue.");
+        }
         setVenue(null);
       } finally {
         setLoading(false);
@@ -46,13 +51,14 @@ function SpecificVenue() {
     fetchVenue();
   }, [venueId]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!venue) {
-    return <div>Venue not found</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error)
+    return (
+      <div className="my-4 px-4 py-2 text-center font-openSans text-lg font-semibold text-red">
+        Error: {error}
+      </div>
+    );
+  if (!venue) return <div>Venue not found</div>;
 
   console.log("Venue data:", venue);
 
