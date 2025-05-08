@@ -164,7 +164,7 @@ function SpecificVenue() {
           <h2 className="mb-2 text-center font-nunito text-xl font-bold text-black">
             Explore the area
           </h2>
-          <div className="mx-6 mx-auto mb-12 mt-5 text-center sm:w-lg">
+          <div className="mx-auto mb-12 mt-5">
             <VenueMap venue={venue} />
           </div>
         </div>

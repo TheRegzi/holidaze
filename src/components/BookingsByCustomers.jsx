@@ -22,8 +22,8 @@ function BookingsByCustomers({ bookings }) {
       <h2 className="mb-3 mt-5 text-center font-nunito text-xl font-bold text-black">
         Bookings By Customers
       </h2>
-      <div className="mx-auto w-[365px] max-w-full overflow-hidden rounded-xl border-2 border-accentLight bg-white sm:w-[400px]">
-        <div className="overflow-x-auto">
+      <div className="mx-auto flex w-[365px] flex-col overflow-hidden rounded-xl border-2 border-accentLight bg-white sm:w-[400px]">
+        <div className="flex-1 overflow-x-auto">
           <table className="mx-auto w-full bg-white">
             <thead>
               <tr className="bg-accentLight text-black">
@@ -61,7 +61,7 @@ function BookingsByCustomers({ bookings }) {
               )}
             </tbody>
           </table>
-          <div className="flew-row align-center mx-auto my-4 flex justify-center gap-4">
+          <div className="mx-auto mb-4 mt-3 flex flex-row justify-center gap-4">
             <button
               className="rounded-lg border-2 border-darkGrey bg-white px-4 py-1 font-nunito font-medium"
               onClick={handlePrevious}

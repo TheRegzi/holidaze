@@ -69,14 +69,20 @@ export default function VenueMap({ venue }) {
     getCoordsIfNeeded();
   }, [coords, addressParts]);
 
-  if (loading) return <div>Loading map...</div>;
-  if (!coords) return <div>Could not find coordinates</div>;
+  if (loading)
+    return <div className="text-center font-openSans">Loading map...</div>;
+  if (!coords)
+    return (
+      <div className="text-center font-openSans">
+        Could not find coordinates
+      </div>
+    );
 
   return (
     <MapContainer
       center={[coords.lat, coords.lng]}
       zoom={13}
-      className="z-10 h-72 w-full rounded-lg shadow sm:h-96"
+      className="z-10 mx-auto h-60 w-[360px] shadow sm:h-96 sm:w-[600px] lg:w-[780px]"
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker position={[coords.lat, coords.lng]}>
