@@ -8,6 +8,7 @@ import { capitalizeWords, formatTitle } from "../utils/helpers";
 const VenueList = ({ searchParams }) => {
   const [venues, setVenues] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
@@ -19,6 +20,7 @@ const VenueList = ({ searchParams }) => {
     async (currentPage) => {
       try {
         const response = await fetch(`${API_VENUES}?page=${currentPage}`);
+        if (!response.ok) throw new Error("Failed to fetch venues");
         const data = await response.json();
 
         let filteredVenues = [
@@ -79,7 +81,7 @@ const VenueList = ({ searchParams }) => {
           meta: data.meta,
         };
       } catch (error) {
-        console.error("Error fetching venues:", error);
+        setError(error.message || "Could not load venues.");
         return { venues: [], meta: {} };
       }
     },
@@ -105,8 +107,11 @@ const VenueList = ({ searchParams }) => {
         }
 
         setHasMore(!result.meta.isLastPage);
+        if (result.venues.length > 0) {
+          setError("");
+        }
       } catch (error) {
-        console.error("Error loading venues:", error);
+        setError(error.message || "Could not load venues.");
       } finally {
         setLoading(false);
       }
@@ -140,6 +145,11 @@ const VenueList = ({ searchParams }) => {
       <h2 className="mb-7 text-center font-nunito text-3xl font-semibold text-shadow-lg">
         Venues
       </h2>
+      {error && (
+        <div className="my-4 px-4 py-2 text-center font-openSans text-lg font-semibold text-red">
+          Error: {error}
+        </div>
+      )}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {sortedVenues.map((venue) => (
           <VenueCard key={venue.id} venue={venue} />
@@ -150,7 +160,7 @@ const VenueList = ({ searchParams }) => {
           <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900"></div>
         </div>
       )}
-      {venues.length === 0 && !loading && (
+      {venues.length === 0 && !loading && !error && (
         <div className="py-4 text-center">
           <p>No venues found matching your search criteria.</p>
         </div>

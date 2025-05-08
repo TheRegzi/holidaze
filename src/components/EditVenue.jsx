@@ -141,7 +141,6 @@ function EditVenue({ venue }) {
         body: JSON.stringify(body),
       });
       if (!response.ok) throw new Error("Network response was not ok");
-
       setSuccess("Venue updated!");
       setTimeout(() => {
         setSuccess(null);
