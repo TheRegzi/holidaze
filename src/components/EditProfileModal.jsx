@@ -46,9 +46,8 @@ export default function UpdateProfileModal({
         apiKey,
       });
       onClose();
-    } catch (err) {
-      setError("Could not update profile.");
-      console.error("Error updating profile:", err);
+    } catch (error) {
+      setError(`Could not update profile: ${error.message}`);
     } finally {
       setLoading(false);
     }

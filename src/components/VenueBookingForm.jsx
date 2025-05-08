@@ -78,7 +78,7 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
       setBookedDates(mergedDates);
       return mergedDates;
     } catch (error) {
-      console.error(error);
+      setError(error.message || "Something went wrong. Please try again.");
       setBookedDates(deduplicateDates([...localBookedDatesRef.current]));
       return [];
     } finally {
@@ -92,6 +92,7 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError("");
     setShowModal(true);
   };
 
@@ -144,7 +145,7 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
       setDates([null, null]);
       setGuests("");
     } catch (error) {
-      setError(error.message);
+      setError(error.message || "Something went wrong. Please try again.");
     } finally {
       setCreating(false);
     }

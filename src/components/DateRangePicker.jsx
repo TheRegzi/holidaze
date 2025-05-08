@@ -5,16 +5,8 @@ import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 export default function DateRangePicker({ value, onChange, excludeDates }) {
   const processedExcludeDates = excludeDates
-    .map((date) => {
-      if (date instanceof Date) return date;
-      try {
-        return new Date(date);
-      } catch {
-        console.error("Invalid date:", date);
-        return null;
-      }
-    })
-    .filter((date) => date !== null);
+    .map((date) => (date instanceof Date ? date : new Date(date)))
+    .filter((date) => date instanceof Date && !isNaN(date.valueOf()));
 
   return (
     <div className="relative z-50 w-full">

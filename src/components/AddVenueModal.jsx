@@ -75,9 +75,8 @@ function AddVenueModal({ isOpen, onClose, userData, apiKey, token }) {
         onClose();
         navigate(`/specific-venue/${venueData.data.id}`);
       }, 1200);
-    } catch (err) {
-      setError("Could not add venue.");
-      console.error("Error adding venue:", err);
+    } catch (error) {
+      setError(`Could not add venue: ${error.message}`);
     } finally {
       setLoading(false);
     }

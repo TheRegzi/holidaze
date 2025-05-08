@@ -48,7 +48,6 @@ export function useProfileData(userName, apiKey, token) {
       } catch (err) {
         setUserData(null);
         setError(err.message || "Unknown error fetching user data");
-        console.error("Error fetching user data:", err);
       } finally {
         setLoading(false);
       }

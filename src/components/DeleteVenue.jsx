@@ -30,9 +30,8 @@ function DeleteVenue({ id }) {
         setSuccess(null);
         navigate("/profile");
       }, 1200);
-    } catch (err) {
-      setError("Could not delete venue.");
-      console.error(err);
+    } catch (error) {
+      setError(`Could not delete venue: ${error.message}`);
     } finally {
       setLoading(false);
     }

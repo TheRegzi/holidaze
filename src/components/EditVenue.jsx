@@ -148,9 +148,8 @@ function EditVenue({ venue }) {
         handleCloseModal();
         window.location.reload();
       }, 1200);
-    } catch (err) {
-      setError("Could not update venue.");
-      console.error(err);
+    } catch (error) {
+      setError(`Could not update venue: ${error.message}`);
     } finally {
       setLoading(false);
     }
