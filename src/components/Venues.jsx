@@ -1,9 +1,30 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 import { API_VENUES } from "../utils/constants";
 import { capitalizeWords, formatTitle } from "../utils/helpers";
+
+async function fetchAllVenues() {
+  let allVenues = [];
+  let page = 1;
+  let isLastPage = false;
+
+  const limit = 100;
+
+  while (!isLastPage) {
+    const response = await fetch(
+      `${API_VENUES}?page=${page}&limit=${limit}&sort=created&sortOrder=desc`
+    );
+    if (!response.ok) throw new Error("Failed to fetch venues");
+    const data = await response.json();
+    allVenues = [...allVenues, ...data.data];
+    isLastPage = data.meta?.isLastPage;
+    page++;
+  }
+
+  return allVenues;
+}
 
 const VenueList = ({ searchParams }) => {
   const [venues, setVenues] = useState([]);
@@ -13,112 +34,103 @@ const VenueList = ({ searchParams }) => {
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    setPage(1);
-  }, [searchParams]);
+    const doSearch =
+      (searchParams.location && searchParams.location.trim() !== "") ||
+      (searchParams.startDate && searchParams.endDate) ||
+      (searchParams.guests && !isNaN(parseInt(searchParams.guests)));
 
-  const fetchVenues = useCallback(
-    async (currentPage) => {
-      try {
-        const response = await fetch(
-          `${API_VENUES}?page=${currentPage}&limit=12&sort=created&sortOrder=desc`
-        );
-        if (!response.ok) throw new Error("Failed to fetch venues");
-        const data = await response.json();
-
-        let filteredVenues = data.data;
-
-        if (searchParams.guests && !isNaN(parseInt(searchParams.guests))) {
-          const numberOfGuests = parseInt(searchParams.guests);
-          filteredVenues = filteredVenues.filter((venue) => {
-            return venue.maxGuests >= numberOfGuests;
-          });
-        }
-
-        if (searchParams.location && searchParams.location.trim() !== "") {
-          filteredVenues = filteredVenues.filter((venue) => {
-            const venueCity = venue.location?.city?.toLowerCase() || "";
-            const venueCountry = venue.location?.country?.toLowerCase() || "";
-            const searchTerm = searchParams.location.toLowerCase();
-
-            return (
-              venueCity.includes(searchTerm) ||
-              venueCountry.includes(searchTerm)
-            );
-          });
-        }
-
-        if (searchParams.startDate && searchParams.endDate) {
-          const searchStart = new Date(searchParams.startDate);
-          const searchEnd = new Date(searchParams.endDate);
-          const numberOfGuests = parseInt(searchParams.guests) || 1;
-
-          filteredVenues = filteredVenues.filter((venue) => {
-            if (venue.maxGuests < numberOfGuests) {
-              return false;
-            }
-
-            if (!venue.bookings || !Array.isArray(venue.bookings)) {
-              return true;
-            }
-
-            const hasOverlap = venue.bookings.some((booking) => {
-              const bookingStart = new Date(booking.dateFrom);
-              const bookingEnd = new Date(booking.dateTo);
-
-              return (
-                (searchStart >= bookingStart && searchStart <= bookingEnd) ||
-                (searchEnd >= bookingStart && searchEnd <= bookingEnd) ||
-                (searchStart <= bookingStart && searchEnd >= bookingEnd)
-              );
-            });
-
-            return !hasOverlap;
-          });
-        }
-
-        return {
-          venues: filteredVenues,
-          meta: data.meta,
-        };
-      } catch (error) {
-        setError(error.message || "Could not load venues.");
-        return { venues: [], meta: {} };
-      }
-    },
-    [searchParams]
-  );
-
-  useEffect(() => {
     const loadVenues = async () => {
       setLoading(true);
+      setError("");
+
       try {
-        const result = await fetchVenues(page);
+        if (doSearch) {
+          const allVenues = await fetchAllVenues();
+          let filteredVenues = allVenues;
 
-        if (page === 1) {
-          setVenues(result.venues);
+          if (searchParams.guests && !isNaN(parseInt(searchParams.guests))) {
+            const numberOfGuests = parseInt(searchParams.guests);
+            filteredVenues = filteredVenues.filter(
+              (venue) => venue.maxGuests >= numberOfGuests
+            );
+          }
+
+          if (searchParams.location && searchParams.location.trim() !== "") {
+            const searchTerm = searchParams.location.trim().toLowerCase();
+            filteredVenues = filteredVenues.filter((venue) => {
+              const location = venue.location || {};
+              const address = location.address || "";
+              const city = location.city || "";
+              const country = location.country || "";
+              return (
+                address.toLowerCase().includes(searchTerm) ||
+                city.toLowerCase().includes(searchTerm) ||
+                country.toLowerCase().includes(searchTerm)
+              );
+            });
+          }
+
+          if (searchParams.startDate && searchParams.endDate) {
+            const searchStart = new Date(searchParams.startDate);
+            const searchEnd = new Date(searchParams.endDate);
+            const numberOfGuests = parseInt(searchParams.guests) || 1;
+
+            filteredVenues = filteredVenues.filter((venue) => {
+              if (venue.maxGuests < numberOfGuests) {
+                return false;
+              }
+
+              if (!venue.bookings || !Array.isArray(venue.bookings)) {
+                return true;
+              }
+
+              const hasOverlap = venue.bookings.some((booking) => {
+                const bookingStart = new Date(booking.dateFrom);
+                const bookingEnd = new Date(booking.dateTo);
+
+                return (
+                  (searchStart >= bookingStart && searchStart <= bookingEnd) ||
+                  (searchEnd >= bookingStart && searchEnd <= bookingEnd) ||
+                  (searchStart <= bookingStart && searchEnd >= bookingEnd)
+                );
+              });
+
+              return !hasOverlap;
+            });
+          }
+
+          setVenues(filteredVenues);
+          setHasMore(false);
+          setPage(1);
         } else {
-          setVenues((prev) => {
-            const combined = [...prev, ...result.venues];
-            const uniqueVenues = [
-              ...new Map(combined.map((venue) => [venue.id, venue])).values(),
-            ];
-            return uniqueVenues;
-          });
-        }
-
-        setHasMore(!result.meta.isLastPage);
-        if (result.venues.length > 0) {
-          setError("");
+          const response = await fetch(
+            `${API_VENUES}?page=${page}&limit=12&sort=created&sortOrder=desc`
+          );
+          if (!response.ok) throw new Error("Failed to fetch venues");
+          const data = await response.json();
+          if (page === 1) {
+            setVenues(data.data);
+          } else {
+            setVenues((prev) => {
+              const combined = [...prev, ...data.data];
+              const uniqueVenues = [
+                ...new Map(combined.map((venue) => [venue.id, venue])).values(),
+              ];
+              return uniqueVenues;
+            });
+          }
+          setHasMore(!data.meta.isLastPage);
         }
       } catch (error) {
         setError(error.message || "Could not load venues.");
+        setVenues([]);
       } finally {
         setLoading(false);
       }
     };
 
     loadVenues();
-  }, [page, fetchVenues]);
+  }, [page, searchParams]);
 
   useEffect(() => {
     const handleScroll = () => {
