@@ -1,6 +1,21 @@
 import { useState } from "react";
 import { formatDate } from "../utils/helpers";
 
+/**
+ * A React component for showing bookings made by other users on venue managers' venue.
+ * Each booking shows the username of the user, booked dates (from + to) and the amount of guests in a table.
+ * It includes pagination with previous and next buttons, and shows four bookings at a time.
+ * If no bookings are present, an appropriate message is shown.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Array<Object>} props.bookings - Array of booking objects. Each booking should have id, customer, dateFrom, dateTo, guests.
+ * @returns {JSX.Element} Table of bookings with pagination controls.
+ *
+ * @example
+ * <BookingsByCustomers bookings={venue.bookings} />
+ */
+
 function BookingsByCustomers({ bookings }) {
   const [page, setPage] = useState(0);
   const PAGE_SIZE = 4;

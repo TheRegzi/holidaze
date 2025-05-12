@@ -3,6 +3,21 @@ import { API_VENUES } from "../utils/constants";
 import { getHeaders } from "../utils/headers";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Sends a POST request to the venues API to create a new venue.
+ * Requires authentication and valid venue data.
+ *
+ * @param {Object} params
+ * @param {Object} params.body - The venue data to send (name, description, media, price, maxGuests, rating, meta, location).
+ * @param {string} params.token - API access token.
+ * @param {string} params.apiKey - API key for authentication.
+ * @returns {Promise<Object>} The server response as JSON.
+ * @throws {Error} If the server responds with an error status.
+ *
+ * @example
+ * await addVenue({ body: { name, ... }, token, apiKey });
+ */
+
 async function addVenue({ body, token, apiKey }) {
   const res = await fetch(`${API_VENUES}`, {
     method: "POST",
@@ -12,6 +27,32 @@ async function addVenue({ body, token, apiKey }) {
   if (!res.ok) throw new Error("Failed to add venue");
   return await res.json();
 }
+
+/**
+ * A modal React component for adding a new venue.
+ * Collects venue details via form submission and creates a new venue
+ * by calling the API. Displays success or error messages,
+ * and navigates to the new venue page upon success.
+ *
+ * @component
+ * @param {Object} props
+ * @param {boolean} props.isOpen - Controls whether the modal is rendered.
+ * @param {Function} props.onClose - Function to close the modal.
+ * @param {Object} props.userData - The current user's data (required for context, may include id, role, etc).
+ * @param {string} props.apiKey - API key for authentication.
+ * @param {string} props.token - API access token.
+ *
+ * @returns {JSX.Element|null} The modal dialog, or null if not open/user invalid.
+ *
+ * @example
+ * <AddVenueModal
+ *   isOpen={isOpen}
+ *   onClose={handleClose}
+ *   userData={user}
+ *   apiKey={apiKey}
+ *   token={token}
+ * />
+ */
 
 function AddVenueModal({ isOpen, onClose, userData, apiKey, token }) {
   const [loading, setLoading] = useState(false);
