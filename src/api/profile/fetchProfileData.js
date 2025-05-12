@@ -2,6 +2,23 @@ import { useState, useEffect } from "react";
 import { API_PROFILE } from "../../utils/constants";
 import { getHeaders } from "../../utils/headers";
 
+/**
+ * React hook for fetching user profile data, including bookings and venues, from the API.
+ * Uses the GET method and custom headers (apiKey + token) for authorization.
+ * Sets error states for missing fields or failed requests.
+ *
+ * @param {string} userName - The username/profile name whose data should be fetched.
+ * @param {string} apiKey - API key for authorization.
+ * @param {string} token - Access token for authorization.
+ * @returns {Object} result
+ * @returns {Object|null} result.userdata - The fetched user data, or null if loading/error.
+ * @returns {string|null} result.error - Error message (if any), or null.
+ * @returns {boolean} result.loading - Loading state.
+ *
+ * @example
+ *   const { userdata, error, loading } = useProfileData(userName, apiKey, token);
+ */
+
 export function useProfileData(userName, apiKey, token) {
   const [userdata, setUserData] = useState(null);
   const [error, setError] = useState(null);
