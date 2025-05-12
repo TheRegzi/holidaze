@@ -1,19 +1,30 @@
 import { Link } from "react-router-dom";
 
 function Footer() {
+  const isLoggedIn = localStorage.getItem("accessToken") !== null;
+
   return (
-    <footer className="bg-primary p-16 md:p-20">
-      <div className="justif m-0 p-0 text-center font-semibold">
-        <Link className="font-openSans" to="/login">
-          Login |{" "}
-        </Link>
-        <Link className="font-openSans" to="/register">
-          Register
-        </Link>
-      </div>
-      <div className="mt-3 p-0 text-center">
-        <p className="font-openSans">© 2025 Holidaze Inc.</p>
-      </div>
+    <footer className="bg-primary px-6 py-16 text-center md:py-20">
+      {!isLoggedIn && (
+        <nav aria-label="Footer navigation" className="mb-3">
+          <Link
+            className="mx-2 font-openSans font-semibold hover:underline focus:outline-none focus:ring-2"
+            to="/login"
+          >
+            Login
+          </Link>
+          <span className="mx-1 font-openSans font-semibold">|</span>
+          <Link
+            className="mx-2 font-openSans font-semibold hover:underline focus:outline-none focus:ring-2"
+            to="/register"
+          >
+            Register
+          </Link>
+        </nav>
+      )}
+      <p className="text-md block font-openSans opacity-80">
+        © 2025 Holidaze Inc.
+      </p>
     </footer>
   );
 }

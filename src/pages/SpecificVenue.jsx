@@ -62,7 +62,7 @@ function SpecificVenue() {
 
   console.log("Venue data:", venue);
 
-  const isOwner = venue.data.owner.name === user.name;
+  const isOwner = user?.name && venue.data.owner.name === user.name;
 
   return (
     <div>
