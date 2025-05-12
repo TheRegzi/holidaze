@@ -10,8 +10,8 @@ export default function ImageCarousel({ media }) {
 
   if (!media || media.length === 0) {
     return (
-      <div className="mt-6 text-center font-openSans font-medium">
-        No images available.
+      <div className="mx-auto mt-0 w-xs text-center shadow-lg sm:w-md">
+        <img src="../assets/placeholder-image.jpg"></img>
       </div>
     );
   }

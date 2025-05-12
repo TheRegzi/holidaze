@@ -9,7 +9,6 @@ async function fetchAllVenues() {
   let allVenues = [];
   let page = 1;
   let isLastPage = false;
-
   const limit = 100;
 
   while (!isLastPage) {

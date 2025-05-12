@@ -46,7 +46,7 @@ function Nav({ isOpen, closeMenu }) {
       {isLoggedIn ? (
         <li className="pb-4 font-montserrat text-lg font-semibold">
           <button
-            className="rounded-lg bg-accent px-5 py-2 shadow-lg text-shadow-lg"
+            className="rounded-lg bg-accent px-6 py-2 shadow-lg transition-transform text-shadow-lg hover:scale-105"
             onClick={handleLogout}
           >
             Logout

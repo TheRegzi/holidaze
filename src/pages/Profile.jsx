@@ -29,14 +29,12 @@ function Profile() {
     );
   if (!userdata)
     return (
-      <div className="mt-10 text-center font-semibold text-black">
-        Loading...
+      <div className="py-4 text-center">
+        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900"></div>
       </div>
     );
 
   const bookings = userdata.bookings || [];
-
-  console.log("Loaded user data:", userdata);
 
   const now = new Date();
   const activeBookings = bookings.filter((b) => new Date(b.dateTo) >= now);

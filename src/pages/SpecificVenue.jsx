@@ -24,8 +24,6 @@ function SpecificVenue() {
   const { id: venueId } = useParams();
   const user = JSON.parse(localStorage.getItem("user"));
 
-  console.log(user);
-
   useEffect(() => {
     if (!venueId) return;
     const fetchVenue = async () => {
@@ -51,7 +49,13 @@ function SpecificVenue() {
     fetchVenue();
   }, [venueId]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div className="py-4 text-center">
+        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900"></div>
+      </div>
+    );
+
   if (error)
     return (
       <div className="my-4 px-4 py-2 text-center font-openSans text-lg font-semibold text-red">
@@ -59,8 +63,6 @@ function SpecificVenue() {
       </div>
     );
   if (!venue) return <div>Venue not found</div>;
-
-  console.log("Venue data:", venue);
 
   const isOwner = user?.name && venue.data.owner.name === user.name;
 
