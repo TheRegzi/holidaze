@@ -70,7 +70,11 @@ export default function VenueMap({ venue }) {
   }, [coords, addressParts]);
 
   if (loading)
-    return <div className="text-center font-openSans">Loading map...</div>;
+    return (
+      <div className="py-4 text-center">
+        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900"></div>
+      </div>
+    );
   if (!coords)
     return (
       <div className="text-center font-openSans">
