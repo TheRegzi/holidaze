@@ -19,13 +19,13 @@ const VenueList = ({ searchParams }) => {
   const fetchVenues = useCallback(
     async (currentPage) => {
       try {
-        const response = await fetch(`${API_VENUES}?page=${currentPage}`);
+        const response = await fetch(
+          `${API_VENUES}?page=${currentPage}&limit=12&sort=created&sortOrder=desc`
+        );
         if (!response.ok) throw new Error("Failed to fetch venues");
         const data = await response.json();
 
-        let filteredVenues = [
-          ...new Map(data.data.map((venue) => [venue.id, venue])).values(),
-        ];
+        let filteredVenues = data.data;
 
         if (searchParams.guests && !isNaN(parseInt(searchParams.guests))) {
           const numberOfGuests = parseInt(searchParams.guests);
@@ -136,10 +136,6 @@ const VenueList = ({ searchParams }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [hasMore, loading]);
 
-  const sortedVenues = [...venues].sort(
-    (a, b) => new Date(b.created) - new Date(a.created)
-  );
-
   return (
     <div className="container mx-auto px-4">
       <h2 className="mb-7 text-center font-nunito text-3xl font-semibold text-shadow-lg">
@@ -151,7 +147,7 @@ const VenueList = ({ searchParams }) => {
         </div>
       )}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {sortedVenues.map((venue) => (
+        {venues.map((venue) => (
           <VenueCard key={venue.id} venue={venue} />
         ))}
       </div>
