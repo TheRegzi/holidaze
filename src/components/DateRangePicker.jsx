@@ -3,6 +3,17 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * React component that renders a date range picker using react-datepicker and a calendar icon.
+ *
+ * @param {Object} props - Component properties.
+ * @param {[Date, Date]} props.value - The currently selected start and end dates as a tuple/array.
+ * @param {function} props.onChange - Callback fired when the selected date range changes. Receives the new date range array ([start, end]) as its argument.
+ * @param {Array<Date|string>} props.excludeDates - Array of dates (Date objects or ISO strings) to disable in the picker.
+ * @returns {JSX.Element} The rendered date range picker.
+ *
+ */
+
 export default function DateRangePicker({ value, onChange, excludeDates }) {
   const processedExcludeDates = excludeDates
     .map((date) => (date instanceof Date ? date : new Date(date)))
