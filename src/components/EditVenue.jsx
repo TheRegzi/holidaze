@@ -1,6 +1,13 @@
-import { getHeaders } from "../utils/headers";
-import { API_VENUE } from "../utils/constants";
 import { useState, useEffect } from "react";
+import { handleEditVenue } from "../api/venues/update";
+
+/**
+ * React component that displays the modal for updating a venue.
+ * It includes a form to change all of the information about the venue.
+ *
+ * @param {*} param0
+ * @returns
+ */
 
 function EditVenue({ venue }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -77,83 +84,6 @@ function EditVenue({ venue }) {
     }
   }
 
-  async function handleEditVenue(e) {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-
-    const {
-      venueName,
-      venueDescription,
-      imageUrl1,
-      imageUrl2,
-      imageUrl3,
-      price,
-      guests,
-      rating,
-      facilities,
-      address,
-      city,
-      zipcode,
-      country,
-    } = formValues;
-    const media = [
-      ...(imageUrl1
-        ? [{ url: imageUrl1, alt: `Image 1 for ${venueName}` }]
-        : []),
-      ...(imageUrl2
-        ? [{ url: imageUrl2, alt: `Image 2 for ${venueName}` }]
-        : []),
-      ...(imageUrl3
-        ? [{ url: imageUrl3, alt: `Image 3 for ${venueName}` }]
-        : []),
-    ];
-    const meta = {
-      wifi: facilities.includes("wifi"),
-      parking: facilities.includes("parking"),
-      breakfast: facilities.includes("breakfast"),
-      pets: facilities.includes("pets"),
-    };
-    const location = {
-      address,
-      city,
-      zip: zipcode,
-      country,
-    };
-
-    try {
-      const apiKey = import.meta.env.VITE_NOROFF_API_KEY;
-      const token = localStorage.getItem("accessToken");
-      const body = {
-        name: venueName,
-        description: venueDescription,
-        media,
-        price: Number(price),
-        maxGuests: Number(guests),
-        rating: Number(rating),
-        meta,
-        location,
-      };
-
-      const response = await fetch(API_VENUE(venue.data.id), {
-        method: "PUT",
-        headers: getHeaders(apiKey, token),
-        body: JSON.stringify(body),
-      });
-      if (!response.ok) throw new Error("Network response was not ok");
-      setSuccess("Venue updated!");
-      setTimeout(() => {
-        setSuccess(null);
-        handleCloseModal();
-        window.location.reload();
-      }, 1200);
-    } catch (error) {
-      setError(`Could not update venue: ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   return (
     <div>
       <button
@@ -162,14 +92,25 @@ function EditVenue({ venue }) {
       >
         Edit venue
       </button>
-
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
           <div className="mx-4 max-h-[80vh] w-[900px] overflow-y-auto bg-white p-8 py-16 shadow-xl sm:px-16">
             <h2 className="mb-6 text-center font-nunito text-3xl font-semibold text-shadow-lg">
               Edit venue
             </h2>
-            <form onSubmit={handleEditVenue} className="mx-auto max-w-[500px]">
+            <form
+              onSubmit={(e) =>
+                handleEditVenue(e, {
+                  formValues,
+                  venue,
+                  setLoading,
+                  setSuccess,
+                  setError,
+                  handleCloseModal,
+                })
+              }
+              className="mx-auto max-w-[500px]"
+            >
               <div className="mb-4">
                 <label
                   htmlFor="venueName"
