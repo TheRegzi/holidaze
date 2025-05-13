@@ -3,10 +3,12 @@ import { handleEditVenue } from "../api/venues/update";
 
 /**
  * React component that displays the modal for updating a venue.
- * It includes a form to change all of the information about the venue.
+ * It includes a form populated with the venue's current data and allows editing all venue fields.
+ * Handles form input, validation, and state management for feedback messages.
  *
- * @param {*} param0
- * @returns
+ * @param {Object} props - Component props.
+ * @param {Object} props.venue - The venue data to edit.
+ * @returns {JSX.Element} The rendered modal and edit form.
  */
 
 function EditVenue({ venue }) {
