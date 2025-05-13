@@ -1,6 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { useDeleteVenue } from "../api/venues/delete";
 
+/**
+ * React component that renders the delete button. Calls the `useDeleteVenue` hook to handle the deletion logic.
+ * It navigates to the profile after deletion.
+ *
+ * @param {Object} props - Component props.
+ * @param {string} props.id - The ID of the venue to delete.
+ * @returns {JSX.Element} The rendered delete button and status messages.
+ */
+
 function DeleteVenue({ id }) {
   const navigate = useNavigate();
   const { loading, success, error, deleteVenue } = useDeleteVenue({
