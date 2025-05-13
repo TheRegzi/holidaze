@@ -1,6 +1,18 @@
 import { useState } from "react";
 import { updateProfileApi } from "../api/profile/update";
 
+/**
+ * React component to display the modal to update the user's profile. It includes a form for changing the profile image url and banner image url.
+ *
+ * @param {Object} props - Component properties.
+ * @param {boolean} props.isOpen - Whether the modal is open.
+ * @param {function} props.onClose - Function called to close the modal.
+ * @param {Object} props.userData - User profile data, including current avatar and banner URLs.
+ * @param {string} props.apiKey - API key for authorization.
+ * @param {string} props.token - Authentication token.
+ * @returns {JSX.Element|null} The rendered modal if open and userData is present, otherwise null.
+ */
+
 export default function UpdateProfileModal({
   isOpen,
   onClose,
