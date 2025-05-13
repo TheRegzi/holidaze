@@ -1,16 +1,5 @@
-import React, { useState } from "react";
-import { API_PROFILES } from "../utils/constants";
-import { getHeaders } from "../utils/headers";
-
-async function updateProfileApi({ userName, body, token, apiKey }) {
-  const res = await fetch(`${API_PROFILES}/${userName}`, {
-    method: "PUT",
-    headers: getHeaders(apiKey, token),
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) throw new Error("Failed to update profile");
-  return await res.json();
-}
+import { useState } from "react";
+import { updateProfileApi } from "../api/profile/update";
 
 export default function UpdateProfileModal({
   isOpen,
