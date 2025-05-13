@@ -3,6 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import Nav from "./Nav";
 
+/**
+ * React component for displaying the header.
+ * If on mobile view, it displays a hamburger menu icon, that opens the menu when clicked.
+ *
+ * @param {Object} props
+ * @param {function} props.toggleMenu - Function to toggle the mobile menu open/closed.
+ * @param {boolean} props.isOpen - Whether the mobile menu is open.
+ * @param {function} props.closeMenu - Function to close the mobile menu.
+ * @returns {JSX.Element} The rendered header component.
+ */
+
 function Header({ toggleMenu, isOpen, closeMenu }) {
   return (
     <>

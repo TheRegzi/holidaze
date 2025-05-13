@@ -5,6 +5,16 @@ import {
   faCircleArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * React component for diplaying an image carousel for the provided images of the venue.
+ * If no image is present, it shows a placeholder image.
+ * When there is only one image provided, the arrows are not displayed.
+ *
+ * @param {Object} props
+ * @param {Array<{ url: string, alt?: string }>} props.media - Array of image objects to display in the carousel.
+ * @returns {JSX.Element} The rendered image carousel component.
+ */
+
 export default function ImageCarousel({ media }) {
   const [index, setIndex] = useState(0);
 

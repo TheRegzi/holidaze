@@ -1,5 +1,13 @@
 import { Link } from "react-router-dom";
 
+/**
+ * React component that displays the footer.
+ * Displays copyright information for Holidaze Inc.
+ * Shows "Login" and "Register" links when the user is not logged in.
+ *
+ * @returns {JSX.Element} The rendered footer component.
+ */
+
 function Footer() {
   const isLoggedIn = localStorage.getItem("accessToken") !== null;
 

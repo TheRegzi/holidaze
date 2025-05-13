@@ -2,6 +2,17 @@ import { Link } from "react-router-dom";
 import { logoutUser } from "../api/auth/logoutUser";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Navigation component that displays app links.
+ * It renders conditionally based on the user is logged in or not, so that certain links are shown and hidden wherever necessary.
+ * Accepts props to control whether the nav is visible (for mobile menus) and to handle menu close actions.
+ *
+ * @param {Object} props
+ * @param {boolean} props.isOpen - Whether the menu is currently open (for toggling visibility, especially on mobile).
+ * @param {function} props.closeMenu - Function that closes the menu (called when a link is clicked).
+ * @returns {JSX.Element} The rendered nav component.
+ */
+
 function Nav({ isOpen, closeMenu }) {
   const navigate = useNavigate();
   const handleLogout = () => {
