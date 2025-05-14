@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { logoutUser } from "../api/auth/logoutUser";
 import { useNavigate } from "react-router-dom";
 
@@ -24,43 +24,65 @@ function Nav({ isOpen, closeMenu }) {
 
   return (
     <ul
-      className={`${
-        isOpen ? "flex bg-primary" : "hidden"
-      } flex-col py-4 pb-6 pl-6 text-lg md:mr-8 md:flex md:flex-row md:items-center md:gap-10 md:pb-0`}
+      className={` ${isOpen ? "top-98 fixed left-0 z-50 flex bg-primary" : "hidden"} h-md w-full flex-col p-6 text-lg text-black transition-all duration-300 md:relative md:flex md:h-auto md:w-auto md:flex-row md:items-center md:gap-14 md:p-0 md:pb-0`}
     >
-      <li className="pb-4 font-montserrat text-lg font-semibold">
-        <Link to="/" onClick={closeMenu}>
+      <li className="pb-6 font-montserrat text-xl font-semibold hover:text-red md:pb-0">
+        <NavLink
+          to="/"
+          onClick={closeMenu}
+          className={({ isActive }) =>
+            isActive ? "border-b-2 border-black hover:border-red" : ""
+          }
+        >
           Home
-        </Link>
+        </NavLink>
       </li>
       {isLoggedIn ? null : (
-        <li className="pb-4 font-montserrat text-lg font-semibold">
-          <Link to="/login" onClick={closeMenu}>
+        <li className="pb-6 font-montserrat text-xl font-semibold hover:text-red md:pb-0">
+          <NavLink
+            to="/login"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              isActive ? "border-b-2 border-black hover:border-red" : ""
+            }
+          >
             Login
-          </Link>
+          </NavLink>
         </li>
       )}
       {isLoggedIn ? null : (
-        <li className="pb-4 font-montserrat text-lg font-semibold">
-          <Link to="/register" onClick={closeMenu}>
+        <li className="pb-6 font-montserrat text-xl font-semibold hover:text-red md:mr-10 md:pb-0">
+          <NavLink
+            to="/register"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              isActive ? "border-b-2 border-black hover:border-red" : ""
+            }
+          >
             Register
-          </Link>
+          </NavLink>
         </li>
       )}
       {isLoggedIn ? (
-        <li className="pb-4 font-montserrat text-lg font-semibold">
-          <Link to="/profile" onClick={closeMenu}>
-            Profile
-          </Link>
+        <li className="pb-6 font-montserrat text-xl font-semibold hover:text-red md:pb-0">
+          <NavLink
+            to="/profile"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              isActive ? "border-b-2 border-black hover:border-red" : ""
+            }
+          >
+            My profile
+          </NavLink>
         </li>
       ) : null}
       {isLoggedIn ? (
-        <li className="pb-4 font-montserrat text-lg font-semibold">
+        <li className="font-montserrat text-xl font-semibold">
           <button
-            className="rounded-lg bg-accent px-6 py-2 shadow-lg transition-transform text-shadow-lg hover:scale-105"
+            className="rounded-lg bg-accent px-6 py-2 shadow-lg transition-transform text-shadow-lg hover:scale-105 md:mr-10"
             onClick={handleLogout}
           >
-            Logout
+            Log out
           </button>
         </li>
       ) : null}
