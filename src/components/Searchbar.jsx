@@ -19,7 +19,6 @@ import {
  * @param {function} props.onSearch - Callback invoked with search parameters when the user submits the search.
  * @returns {JSX.Element}
  */
-
 function SearchBar({ onSearch }) {
   const [location, setLocation] = useState("");
   const [guests, setGuests] = useState("");

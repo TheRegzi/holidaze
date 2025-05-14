@@ -27,7 +27,6 @@ import { addVenue } from "../api/venues/create";
  *   token={token}
  * />
  */
-
 function AddVenueModal({ isOpen, onClose, userData, apiKey, token }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

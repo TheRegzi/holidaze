@@ -15,7 +15,6 @@ import { formatDate } from "../utils/helpers";
  * @example
  * <BookingsByCustomers bookings={venue.bookings} />
  */
-
 function BookingsByCustomers({ bookings }) {
   const [page, setPage] = useState(0);
   const PAGE_SIZE = 4;

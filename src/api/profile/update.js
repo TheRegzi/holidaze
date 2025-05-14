@@ -13,7 +13,6 @@ import { getHeaders } from "../../utils/headers";
  * @throws {Error} If the API request fails.
  *
  */
-
 export async function updateProfileApi({ userName, body, token, apiKey }) {
   const res = await fetch(`${API_PROFILES}/${userName}`, {
     method: "PUT",

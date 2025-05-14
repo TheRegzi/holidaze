@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
  * @param {function} props.closeMenu - Function that closes the menu (called when a link is clicked).
  * @returns {JSX.Element} The rendered nav component.
  */
-
 function Nav({ isOpen, closeMenu }) {
   const navigate = useNavigate();
   const handleLogout = () => {

@@ -10,7 +10,6 @@ import Footer from "./Footer";
  *
  * @returns {JSX.Element} The rendered layout component.
  */
-
 function Layout() {
   const [isOpen, setIsOpen] = useState(false);
 

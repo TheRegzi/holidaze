@@ -9,7 +9,6 @@ import { useAuth } from "../hooks/useAuth";
  * @param {React.ReactNode} props.children - The components to render if access is granted.
  * @returns {JSX.Element} The protected route (either children or a redirect).
  */
-
 export default function ProtectedRoute({ children }) {
   const { user, token } = useAuth();
 

@@ -9,7 +9,6 @@ import { useDeleteVenue } from "../api/venues/delete";
  * @param {string} props.id - The ID of the venue to delete.
  * @returns {JSX.Element} The rendered delete button and status messages.
  */
-
 function DeleteVenue({ id }) {
   const navigate = useNavigate();
   const { loading, success, error, deleteVenue } = useDeleteVenue({

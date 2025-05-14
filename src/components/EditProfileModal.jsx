@@ -12,7 +12,6 @@ import { updateProfileApi } from "../api/profile/update";
  * @param {string} props.token - Authentication token.
  * @returns {JSX.Element|null} The rendered modal if open and userData is present, otherwise null.
  */
-
 export default function UpdateProfileModal({
   isOpen,
   onClose,

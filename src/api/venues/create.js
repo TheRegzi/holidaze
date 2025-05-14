@@ -15,7 +15,6 @@ import { getHeaders } from "../../utils/headers";
  * @example
  * await addVenue({ body: { name, ... }, token, apiKey });
  */
-
 export async function addVenue({ body, token, apiKey }) {
   const res = await fetch(`${API_VENUES}`, {
     method: "POST",

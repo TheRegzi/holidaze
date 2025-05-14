@@ -12,7 +12,6 @@ import { formatTitle, formatDate } from "../utils/helpers";
  * @param {Date} date - The original date object.
  * @returns {Date} New date at local midnight.
  */
-
 function toLocalMidnight(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
@@ -22,7 +21,6 @@ function toLocalMidnight(date) {
  * @param {Date} date - The original date object.
  * @returns {Date} New date at UTC midnight.
  */
-
 function toUtcMidnight(date) {
   return new Date(
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
@@ -34,7 +32,6 @@ function toUtcMidnight(date) {
  * @param {string} isoStr - ISO-formatted date string.
  * @returns {Date} New Date at local midnight.
  */
-
 function isoToLocalMidnight(isoStr) {
   const d = new Date(isoStr);
   return new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -47,7 +44,6 @@ function isoToLocalMidnight(isoStr) {
  * @param {string} endStr - End date (ISO string).
  * @returns {Date[]} Array of Date objects at local midnight.
  */
-
 function getLocalDatesBetween(startStr, endStr) {
   const dateList = [];
   let current = isoToLocalMidnight(startStr);
@@ -64,7 +60,6 @@ function getLocalDatesBetween(startStr, endStr) {
  * @param {Date[]} arr - Array of Date objects.
  * @returns {Date[]} Array of unique Date objects.
  */
-
 function deduplicateDates(arr) {
   const map = new Map();
   arr.forEach((date) => map.set(date.getTime(), date));
@@ -82,7 +77,6 @@ function deduplicateDates(arr) {
  * @param {string} props.venueName - Display name of the venue (for confirmation modal).
  * @returns {JSX.Element} The booking form and confirmation modal.
  */
-
 export default function VenueBookingForm({ venueId, price, venueName }) {
   const [dates, setDates] = useState([null, null]);
   const [guests, setGuests] = useState("");

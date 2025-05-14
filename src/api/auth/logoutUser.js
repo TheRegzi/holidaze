@@ -3,7 +3,6 @@
  * @function
  * @returns {void}
  */
-
 export function logoutUser() {
   localStorage.removeItem("user");
   localStorage.removeItem("accessToken");

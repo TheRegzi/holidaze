@@ -18,7 +18,6 @@ import { getHeaders } from "../../utils/headers";
  * @example
  *   const { userdata, error, loading } = useProfileData(userName, apiKey, token);
  */
-
 export function useProfileData(userName, apiKey, token) {
   const [userdata, setUserData] = useState(null);
   const [error, setError] = useState(null);

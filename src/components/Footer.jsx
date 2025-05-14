@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
  *
  * @returns {JSX.Element} The rendered footer component.
  */
-
 function Footer() {
   const isLoggedIn = localStorage.getItem("accessToken") !== null;
 

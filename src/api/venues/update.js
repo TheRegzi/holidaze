@@ -10,7 +10,6 @@ import { API_VENUE } from "../../utils/constants";
  * @param {Event} e - The form submission event.
  * @returns {Promise} A promise that resolved when the operation is complete.
  */
-
 export async function handleEditVenue(
   e,
   { formValues, venue, setLoading, setSuccess, setError, handleCloseModal }

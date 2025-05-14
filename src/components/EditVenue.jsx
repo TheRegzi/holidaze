@@ -10,7 +10,6 @@ import { handleEditVenue } from "../api/venues/update";
  * @param {Object} props.venue - The venue data to edit.
  * @returns {JSX.Element} The rendered modal and edit form.
  */
-
 function EditVenue({ venue }) {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);

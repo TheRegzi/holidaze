@@ -26,7 +26,6 @@ import { getHeaders } from "../../utils/headers";
  * {success && <div>{success}</div>}
  * {error && <div>{error}</div>}
  */
-
 export function useDeleteVenue({ id, onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(null);

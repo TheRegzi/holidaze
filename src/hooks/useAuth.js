@@ -5,7 +5,6 @@
  *   - user {Object | null}: The logged-in user object, or null if not found.
  *   - token {string | null}: The access token, or null if not found.
  */
-
 export function useAuth() {
   const user = localStorage.getItem("user");
   const token = localStorage.getItem("accessToken");

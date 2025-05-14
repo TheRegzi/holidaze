@@ -11,7 +11,6 @@ import "leaflet/dist/leaflet.css";
  * @returns {Promise<{lat: number, lng: number} | null>} Returns an object with numeric `lat` and `lng` properties if found, otherwise `null`.
  *
  */
-
 async function geocodeAddress(addressString) {
   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addressString)}`;
   const response = await fetch(url);
@@ -37,7 +36,6 @@ async function geocodeAddress(addressString) {
  * @example
  * <VenueMap venue={venue} />
  */
-
 export default function VenueMap({ venue }) {
   const location = venue.data.location;
 

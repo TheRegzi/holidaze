@@ -13,7 +13,6 @@ import Nav from "./Nav";
  * @param {function} props.closeMenu - Function to close the mobile menu.
  * @returns {JSX.Element} The rendered header component.
  */
-
 function Header({ toggleMenu, isOpen, closeMenu }) {
   return (
     <>

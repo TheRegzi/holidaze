@@ -14,7 +14,6 @@ import {
  * @param {Array<{ url: string, alt?: string }>} props.media - Array of image objects to display in the carousel.
  * @returns {JSX.Element} The rendered image carousel component.
  */
-
 export default function ImageCarousel({ media }) {
   const [index, setIndex] = useState(0);
 

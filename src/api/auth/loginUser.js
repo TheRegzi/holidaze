@@ -9,7 +9,6 @@ import { API_LOGIN } from "../../utils/constants";
  * @returns {Promise<object>} The user data.
  * @throws {Error} If the login fails or the response is not ok.
  */
-
 export async function loginUser({ email, password }) {
   const API_KEY = import.meta.env.VITE_NOROFF_API_KEY;
 

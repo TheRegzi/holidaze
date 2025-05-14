@@ -13,7 +13,6 @@ import { faCalendar } from "@fortawesome/free-solid-svg-icons";
  * @returns {JSX.Element} The rendered date range picker.
  *
  */
-
 export default function DateRangePicker({ value, onChange, excludeDates }) {
   const processedExcludeDates = excludeDates
     .map((date) => (date instanceof Date ? date : new Date(date)))

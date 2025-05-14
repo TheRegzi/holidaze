@@ -9,7 +9,6 @@ import { API_REGISTER } from "../../utils/constants";
  * @returns {Promise<object>} The user data.
  * @throws {Error} If the register fails or the response is not ok.
  */
-
 export async function registerUser({ username, email, password, role }) {
   const API_KEY = import.meta.env.VITE_NOROFF_API_KEY;
 
