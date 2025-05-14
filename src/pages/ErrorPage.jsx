@@ -2,6 +2,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
+/**
+ * The error page content which displays a 404 error message when the user is on a route that doesn't exist.
+ * Includes an error icon, explanation text, and a button to navigate back to the home page.
+ *
+ * @returns {JSX.Element} The rendered error page.
+ */
 function ErrorPage() {
   return (
     <div>

@@ -2,6 +2,12 @@ import { useState } from "react";
 import SearchBar from "../components/Searchbar";
 import VenueList from "../components/Venues";
 
+/**
+ * The home page component, which displays a banner with a search component, and the venues section to display all the venue cards.
+ * When searching for a venue, the venues section displays the filtered venue cards.
+ *
+ * @returns {JSX.Element} The rendered home page.
+ */
 function Home() {
   const [searchParams, setSearchParams] = useState({
     location: "",
