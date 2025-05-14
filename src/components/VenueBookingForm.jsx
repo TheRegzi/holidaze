@@ -7,9 +7,21 @@ import { getHeaders } from "../utils/headers";
 import { Link } from "react-router-dom";
 import { formatTitle, formatDate } from "../utils/helpers";
 
+/**
+ * Returns a new Date at local midnight for the given date.
+ * @param {Date} date - The original date object.
+ * @returns {Date} New date at local midnight.
+ */
+
 function toLocalMidnight(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
+
+/**
+ * Returns a new Date at UTC midnight for the given date.
+ * @param {Date} date - The original date object.
+ * @returns {Date} New date at UTC midnight.
+ */
 
 function toUtcMidnight(date) {
   return new Date(
@@ -17,10 +29,24 @@ function toUtcMidnight(date) {
   );
 }
 
+/**
+ * Converts an ISO date string to a Date at local midnight.
+ * @param {string} isoStr - ISO-formatted date string.
+ * @returns {Date} New Date at local midnight.
+ */
+
 function isoToLocalMidnight(isoStr) {
   const d = new Date(isoStr);
   return new Date(d.getFullYear(), d.getMonth(), d.getDate());
 }
+
+/**
+ * Returns an array of dates covering all days between startStr and endStr.
+ * Both strings should be ISO-formatted date strings.
+ * @param {string} startStr - Start date (ISO string).
+ * @param {string} endStr - End date (ISO string).
+ * @returns {Date[]} Array of Date objects at local midnight.
+ */
 
 function getLocalDatesBetween(startStr, endStr) {
   const dateList = [];
@@ -33,11 +59,29 @@ function getLocalDatesBetween(startStr, endStr) {
   return dateList;
 }
 
+/**
+ * Removes duplicate Date objects (per Unix timestamp) from an array.
+ * @param {Date[]} arr - Array of Date objects.
+ * @returns {Date[]} Array of unique Date objects.
+ */
+
 function deduplicateDates(arr) {
   const map = new Map();
   arr.forEach((date) => map.set(date.getTime(), date));
   return Array.from(map.values());
 }
+
+/**
+ * VenueBookingForm component
+ * Displays a calendar-based booking form for a venue, handling selection of date ranges, number of guests,
+ * checking for booked dates, and creating new bookings.
+ *
+ * @param {Object} props
+ * @param {string} props.venueId - The ID of the venue being booked.
+ * @param {number} props.price - The price per night for the venue.
+ * @param {string} props.venueName - Display name of the venue (for confirmation modal).
+ * @returns {JSX.Element} The booking form and confirmation modal.
+ */
 
 export default function VenueBookingForm({ venueId, price, venueName }) {
   const [dates, setDates] = useState([null, null]);

@@ -8,6 +8,18 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * A responsive and accessible search bar component on the banner at the home page.
+ * One can search for location, dates and amount of guests.
+ * It includes DatePicker so the users can select dates from the calendar for the search.
+ * Calls the `onSearch` callback prop with the input values when the search button is pressed.
+ *
+ * @component
+ * @param {Object} props
+ * @param {function} props.onSearch - Callback invoked with search parameters when the user submits the search.
+ * @returns {JSX.Element}
+ */
+
 function SearchBar({ onSearch }) {
   const [location, setLocation] = useState("");
   const [guests, setGuests] = useState("");
