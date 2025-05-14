@@ -8,6 +8,14 @@ import Profile from "../pages/Profile";
 import ErrorPage from "../pages/ErrorPage";
 import ProtectedRoute from "../components/ProtectedRoute";
 
+/**
+ * AppRoutes component that defines the main routing structure for the application, including all core routes with their corresponding pages.
+ * Uses nested <Routes> and <Route> from react-router-dom.
+ * It protects the profile route with ProtectedRoute, so only authenticated users can access the page.
+ *
+ * @returns {JSX.Element} The rendered route structure.
+ */
+
 function AppRoutes() {
   return (
     <Routes>

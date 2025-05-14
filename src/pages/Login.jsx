@@ -1,8 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../api/auth/loginUser";
-import { useNavigate } from "react-router-dom";
 
+/**
+ * Login page component that displays the form with fields for e-mail and password.
+ * It handles user authentication, and manages errors, loading, and success states.
+ *
+ * @returns {JSX.Element} The rendered login page.
+ */
 function Login() {
   const [form, setForm] = useState({
     email: "",

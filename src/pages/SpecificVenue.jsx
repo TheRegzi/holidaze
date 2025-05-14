@@ -17,6 +17,14 @@ import BookingsByCustomers from "../components/BookingsByCustomers";
 import EditVenue from "../components/EditVenue";
 import DeleteVenue from "../components/DeleteVenue";
 
+/**
+ * Specific venue component that displays an image carousel and detailed information for a single venue.
+ * Includes description, location, facilities, map, owner/manager controls, and a venue booking form.
+ * Handles conditional rendering for owners, and shows loading and error states.
+ *
+ * @returns {JSX.Element} The rendered specific venue page.
+ */
+
 function SpecificVenue() {
   const [venue, setVenue] = useState(null);
   const [loading, setLoading] = useState(true);

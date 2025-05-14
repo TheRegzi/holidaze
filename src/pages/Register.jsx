@@ -3,6 +3,14 @@ import { Link } from "react-router-dom";
 import { registerUser } from "../api/auth/registerUser";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Register page component that displays a register form for registering a user.
+ * It collects username, email, password (with confirmation).
+ * One also need to choose if it should be a customer or venue manager account.
+ * Handles loading, error and success registration states.
+ *
+ * @returns {JSX.Element} The rendered register page.
+ */
 function Register() {
   const [form, setForm] = useState({
     username: "",

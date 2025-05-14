@@ -7,6 +7,17 @@ import AddVenueModal from "../components/AddVenueModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * Profile page component that displays the user's profile information.
+ * Renders different sections based on whether the user is a venue manager or not.
+ * - Shows profile banner, avatar, name, and profile edit options.
+ * - If user is a venue manager: displays a list of created venues and "Add Venue" modal.
+ * - Shows list of upcoming bookings for all users.
+ *
+ * Handles loading, error, and conditional rendering for robust UX.
+ *
+ * @returns {JSX.Element} The rendered profile page UI.
+ */
 function Profile() {
   const user = JSON.parse(localStorage.getItem("user"));
   const userName = user?.name;
@@ -35,10 +46,8 @@ function Profile() {
     );
 
   const bookings = userdata.bookings || [];
-
   const now = new Date();
   const activeBookings = bookings.filter((b) => new Date(b.dateTo) >= now);
-
   const sortedBookings = [...activeBookings].sort(
     (a, b) => new Date(a.dateFrom) - new Date(b.dateFrom)
   );
