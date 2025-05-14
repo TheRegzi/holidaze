@@ -6,7 +6,14 @@ import { API_VENUES } from "../utils/constants";
 import { capitalizeWords, formatTitle } from "../utils/helpers";
 import { fetchAllVenues } from "../api/venues/getVenues";
 
-const VenueList = ({ searchParams }) => {
+/**
+ * Displays a list of venues, filtered by given search parameters.
+ * Handles infinite scroll, loading, and error display.
+ * @param {Object} props
+ * @param {Object} props.searchParams - The parameters to filter venues (location, guests, dates, etc)
+ * @returns {JSX.Element}
+ */
+function VenueList({ searchParams }) {
   const [venues, setVenues] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -19,7 +26,7 @@ const VenueList = ({ searchParams }) => {
       (searchParams.startDate && searchParams.endDate) ||
       (searchParams.guests && !isNaN(parseInt(searchParams.guests)));
 
-    const loadVenues = async () => {
+    async function loadVenues() {
       setLoading(true);
       setError("");
 
@@ -107,13 +114,13 @@ const VenueList = ({ searchParams }) => {
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     loadVenues();
   }, [page, searchParams]);
 
   useEffect(() => {
-    const handleScroll = () => {
+    function handleScroll() {
       if (
         window.innerHeight + document.documentElement.scrollTop + 1 >=
         document.documentElement.offsetHeight
@@ -122,11 +129,74 @@ const VenueList = ({ searchParams }) => {
           setPage((prev) => prev + 1);
         }
       }
-    };
+    }
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [hasMore, loading]);
+
+  /**
+   * Displays a card with venue info and link.
+   * @param {Object} props
+   * @param {Object} props.venue - Single venue data
+   * @returns {JSX.Element}
+   */
+
+  function VenueCard({ venue }) {
+    return (
+      <div className="group relative overflow-hidden rounded-lg bg-secondary shadow-xl">
+        <Link to={`/specific-venue/${venue.id}`} className="block">
+          <div className="absolute inset-0 z-10 bg-black opacity-0 transition-opacity duration-500 group-hover:opacity-40"></div>
+          <div className="absolute inset-0 z-20 flex items-center justify-center text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+            <p className="rounded-lg border-2 border-black bg-secondary px-2 py-4 font-montserrat font-semibold text-black">
+              Max guests: {venue.maxGuests}
+            </p>
+          </div>
+          <div className="relative h-64">
+            <img
+              src={venue.media[0]?.url || "/assets/placeholder-image.jpg"}
+              alt={venue.media[0]?.alt || venue.name}
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className="relative z-20 px-4 py-2">
+            <div className="flex justify-between">
+              <div>
+                <h3 className="font-nunito text-xl font-semibold text-shadow-lg">
+                  {formatTitle(venue.name)}
+                </h3>
+              </div>
+              <div>
+                <p className="font-montserrat font-medium">
+                  {venue.rating}/5{" "}
+                  <FontAwesomeIcon
+                    icon={faStar}
+                    className="mr-1 text-accentDark"
+                  />
+                </p>
+              </div>
+            </div>
+            <p className="font-openSans text-black">
+              <span className="font-bold">{venue.price} NOK</span> / night
+            </p>
+            <p className="mb-2 font-openSans text-black">
+              <FontAwesomeIcon
+                icon={faLocationDot}
+                className="mr-1 text-sm text-accentDark"
+              />
+              {venue.location?.city && venue.location?.country
+                ? `${capitalizeWords(venue.location.city)}, ${capitalizeWords(venue.location.country)}`
+                : venue.location?.city
+                  ? capitalizeWords(venue.location.city)
+                  : venue.location?.country
+                    ? capitalizeWords(venue.location.country)
+                    : "No location stated"}
+            </p>
+          </div>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4">
@@ -155,62 +225,6 @@ const VenueList = ({ searchParams }) => {
       )}
     </div>
   );
-};
-
-const VenueCard = ({ venue }) => {
-  return (
-    <div className="group relative overflow-hidden rounded-lg bg-secondary shadow-xl">
-      <Link to={`/specific-venue/${venue.id}`} className="block">
-        <div className="absolute inset-0 z-10 bg-black opacity-0 transition-opacity duration-500 group-hover:opacity-40"></div>
-        <div className="absolute inset-0 z-20 flex items-center justify-center text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-          <p className="rounded-lg border-2 border-black bg-secondary px-2 py-4 font-montserrat font-semibold text-black">
-            Max guests: {venue.maxGuests}
-          </p>
-        </div>
-        <div className="relative h-64">
-          <img
-            src={venue.media[0]?.url || "/assets/placeholder-image.jpg"}
-            alt={venue.media[0]?.alt || venue.name}
-            className="h-full w-full object-cover"
-          />
-        </div>
-        <div className="relative z-20 px-4 py-2">
-          <div className="flex justify-between">
-            <div>
-              <h3 className="font-nunito text-xl font-semibold text-shadow-lg">
-                {formatTitle(venue.name)}
-              </h3>
-            </div>
-            <div>
-              <p className="font-montserrat font-medium">
-                {venue.rating}/5{" "}
-                <FontAwesomeIcon
-                  icon={faStar}
-                  className="mr-1 text-accentDark"
-                />
-              </p>
-            </div>
-          </div>
-          <p className="font-openSans text-black">
-            <span className="font-bold">{venue.price} NOK</span> / night
-          </p>
-          <p className="mb-2 font-openSans text-black">
-            <FontAwesomeIcon
-              icon={faLocationDot}
-              className="mr-1 text-sm text-accentDark"
-            />
-            {venue.location?.city && venue.location?.country
-              ? `${capitalizeWords(venue.location.city)}, ${capitalizeWords(venue.location.country)}`
-              : venue.location?.city
-                ? capitalizeWords(venue.location.city)
-                : venue.location?.country
-                  ? capitalizeWords(venue.location.country)
-                  : "No location stated"}
-          </p>
-        </div>
-      </Link>
-    </div>
-  );
-};
+}
 
 export default VenueList;
