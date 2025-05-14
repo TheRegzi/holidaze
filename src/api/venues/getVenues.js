@@ -1,5 +1,15 @@
 import { API_VENUES } from "../../utils/constants";
 
+/**
+ * Function to fetch the venues from the api.
+ * There are 100 results at a time. Results are sorted so that the newest created venues appear first.
+ * Continues to request each page of results until the API indicates the last page has been reached.
+ *
+ * @async
+ * @function
+ * @throws {Error} If any fetch request fails.
+ * @returns {Promise<Array>} Resolves to an array of all venue objects.
+ */
 export async function fetchAllVenues() {
   let allVenues = [];
   let page = 1;
