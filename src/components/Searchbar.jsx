@@ -46,6 +46,9 @@ function SearchBar({ onSearch }) {
     <div className="mx-auto flex w-full flex-col items-center rounded-md p-4 sm:w-md md:flex-row lg:w-lg">
       <div className="grid w-full grid-cols-3 gap-2 font-montserrat md:gap-3">
         <div className="relative">
+          <label htmlFor="location" className="sr-only">
+            Location
+          </label>
           <input
             type="text"
             placeholder="Location"
@@ -59,7 +62,9 @@ function SearchBar({ onSearch }) {
           />
         </div>
         <div className="relative z-50">
-          {" "}
+          <label htmlFor="date" className="sr-only">
+            Date Range
+          </label>
           <DatePicker
             selected={dates[0]}
             onChange={(update) => setDates(update)}
@@ -76,6 +81,9 @@ function SearchBar({ onSearch }) {
           />
         </div>
         <div className="relative">
+          <label htmlFor="guests" className="sr-only">
+            Number of Guests
+          </label>
           <input
             type="number"
             placeholder="Guests"
