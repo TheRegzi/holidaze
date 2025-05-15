@@ -180,7 +180,7 @@ function Register() {
           Registered! Redirecting...
         </div>
       )}
-      <p className="mt-5 text-center font-openSans text-sm text-darkGrey">
+      <p className="my-5 text-center font-openSans text-sm text-darkGrey">
         Already have an account?{" "}
         <Link to="/login" className="font-bold text-red">
           Log in here!
