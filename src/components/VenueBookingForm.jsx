@@ -216,6 +216,7 @@ export default function VenueBookingForm({ venueId, price, venueName }) {
         </label>
         <div className="w-54 relative mx-auto mt-3">
           <DateRangePicker
+            id="dates"
             value={dates}
             onChange={setDates}
             excludeDates={bookedDates}
