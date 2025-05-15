@@ -50,6 +50,7 @@ function SearchBar({ onSearch }) {
             Location
           </label>
           <input
+            id="location"
             type="text"
             placeholder="Location"
             className="w-full rounded-md border-2 border-accentLight p-2 pl-7 text-sm md:text-base"
@@ -66,6 +67,7 @@ function SearchBar({ onSearch }) {
             Date Range
           </label>
           <DatePicker
+            id="date"
             selected={dates[0]}
             onChange={(update) => setDates(update)}
             startDate={dates[0]}
@@ -85,6 +87,7 @@ function SearchBar({ onSearch }) {
             Number of Guests
           </label>
           <input
+            id="guests"
             type="number"
             placeholder="Guests"
             className="w-full rounded-md border-2 border-accentLight p-2 pl-7 text-sm md:text-base"
