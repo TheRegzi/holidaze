@@ -56,14 +56,16 @@ function BookingsByCustomers({ bookings }) {
               {currentBookings && currentBookings.length > 0 ? (
                 currentBookings.map((b) => (
                   <tr key={b.id} className="border-t">
-                    <td className="px-4 py-2">
-                      {b.customer?.name || "Unknown"}
+                    <td className="px-1 py-2 sm:px-3">
+                      {(b.customer?.name || "Unknown").length > 10
+                        ? `${(b.customer?.name || "Unknown").slice(0, 10)}...`
+                        : b.customer?.name || "Unknown"}
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-1 py-2 sm:px-3">
                       {formatDate(new Date(b.dateFrom))} -{" "}
                       {formatDate(new Date(b.dateTo))}
                     </td>
-                    <td className="px-4 py-2">{b.guests}</td>
+                    <td className="px-3 py-2">{b.guests}</td>
                   </tr>
                 ))
               ) : (
