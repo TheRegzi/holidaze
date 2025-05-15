@@ -38,6 +38,7 @@ export default function ImageCarousel({ media }) {
         src={media[index].url}
         alt={media[index].alt || ""}
         className="max-h-[780px] min-h-[600px] w-full object-cover shadow"
+        loading="lazy"
       />
       {media.length === 1 ? null : (
         <button

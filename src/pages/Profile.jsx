@@ -66,11 +66,13 @@ function Profile() {
             className="h-[300px] w-full object-cover"
             src={userdata.banner.url}
             alt={userdata.banner.alt || "Profile Banner image"}
+            loading="lazy"
           />
           <img
             className="absolute -bottom-24 left-1/2 h-52 w-52 -translate-x-1/2 rounded-full object-cover shadow-lg"
             src={userdata.avatar.url}
             alt={userdata.avatar.alt || "Profile Avatar image"}
+            loading="lazy"
           />
         </div>
         <div className="mb-10 pt-28">
@@ -127,8 +129,11 @@ function Profile() {
                     <Link to={`/specific-venue/${v.id}`}>
                       <img
                         className="h-[220px] w-[350px] rounded-t-xl object-cover lg:w-[420px]"
-                        src={v.media?.[0]?.url || "/placeholder.jpg"}
+                        src={
+                          v.media?.[0]?.url || "assets/placeholder-image.jpg"
+                        }
                         alt={v.media?.[0]?.alt || v.name || "Venue image"}
+                        loading="lazy"
                       />
                       <div className="relative z-20 p-3">
                         <div className="flex justify-between">
@@ -197,7 +202,10 @@ function Profile() {
                   <Link to={`/specific-venue/${b.venue.id}`} key={b.id}>
                     <img
                       className="h-[220px] w-[350px] rounded-t-xl object-cover lg:w-[420px]"
-                      src={b.venue.media[0]?.url}
+                      src={
+                        b.venue.media[0]?.url || "assets/placeholder-image.jpg"
+                      }
+                      loading="lazy"
                     ></img>
                     <div className="p-3 text-black">
                       <h3 className="font-nunito text-lg font-semibold text-shadow-lg">

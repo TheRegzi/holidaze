@@ -157,6 +157,7 @@ function VenueList({ searchParams }) {
               src={venue.media[0]?.url || "/assets/placeholder-image.jpg"}
               alt={venue.media[0]?.alt || venue.name}
               className="h-full w-full object-cover"
+              loading="lazy"
             />
           </div>
           <div className="relative z-20 px-4 py-2">
