@@ -182,7 +182,7 @@ function Profile() {
         </h2>
         {error && <div className="text-red">{error}</div>}
         {activeBookings.length === 0 && (
-          <div className="text-md font-openSans text-black">
+          <div className="text-md mt-5 text-center font-openSans text-black">
             You have no bookings yet.
           </div>
         )}
