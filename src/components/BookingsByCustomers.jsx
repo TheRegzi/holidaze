@@ -55,7 +55,7 @@ function BookingsByCustomers({ bookings }) {
             <tbody>
               {currentBookings && currentBookings.length > 0 ? (
                 currentBookings.map((b) => (
-                  <tr key={b.id} className="border-t">
+                  <tr key={b.id} className="border-t text-center">
                     <td className="px-1 py-2 sm:px-3">
                       {(b.customer?.name || "Unknown").length > 10
                         ? `${(b.customer?.name || "Unknown").slice(0, 10)}...`
