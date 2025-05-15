@@ -19,7 +19,7 @@ function Header({ toggleMenu, isOpen, closeMenu }) {
       <header className="flex items-center justify-between bg-primary p-4 md:gap-20">
         <Link to="/" onClick={() => (window.location.href = "/")}>
           <img
-            className="ml-2 w-[100px] md:ml-5"
+            className="ml-2 w-[85px] md:ml-5 md:w-[100px]"
             src="/assets/logo.svg"
             alt="Logo"
           />
