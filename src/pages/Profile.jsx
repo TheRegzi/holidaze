@@ -25,25 +25,43 @@ function Profile() {
   const apiKey = import.meta.env.VITE_NOROFF_API_KEY;
   const { userdata, error } = useProfileData(userName, apiKey, token);
   const [modalType, setModalType] = useState("");
+  const [venuesPage, setVenuesPage] = useState(0);
+  const [bookingsPage, setBookingsPage] = useState(0);
 
-  if (!userName)
+  const PAGE_SIZE = 6;
+
+  if (!userName) {
     return (
       <div className="mt-10 text-center font-semibold text-red">
         Error: No profile name found.
       </div>
     );
-  if (error)
+  }
+
+  if (error) {
     return (
       <div className="mt-10 text-center font-semibold text-red">
         Error: {error}
       </div>
     );
-  if (!userdata)
+  }
+
+  if (!userdata) {
     return (
       <div className="py-4 text-center">
         <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900"></div>
       </div>
     );
+  }
+
+  const venues = userdata.venues || [];
+  const sortedVenues = [...venues].sort(
+    (a, b) => new Date(b.created) - new Date(a.created)
+  );
+  const venuesStart = venuesPage * PAGE_SIZE;
+  const venuesEnd = venuesStart + PAGE_SIZE;
+  const pagedVenues = sortedVenues.slice(venuesStart, venuesEnd);
+  const venuesPageCount = Math.ceil(sortedVenues.length / PAGE_SIZE);
 
   const bookings = userdata.bookings || [];
   const now = new Date();
@@ -51,10 +69,10 @@ function Profile() {
   const sortedBookings = [...activeBookings].sort(
     (a, b) => new Date(a.dateFrom) - new Date(b.dateFrom)
   );
-
-  const sortedVenues = [...userdata.venues].sort(
-    (a, b) => new Date(b.created) - new Date(a.created)
-  );
+  const bookingsStart = bookingsPage * PAGE_SIZE;
+  const bookingsEnd = bookingsStart + PAGE_SIZE;
+  const pagedBookings = sortedBookings.slice(bookingsStart, bookingsEnd);
+  const bookingsPageCount = Math.ceil(sortedBookings.length / PAGE_SIZE);
 
   const isVenueManager = userdata.venueManager === true;
 
@@ -64,14 +82,14 @@ function Profile() {
         <div className="relative">
           <img
             className="h-[300px] w-full object-cover"
-            src={userdata.banner.url}
-            alt={userdata.banner.alt || "Profile Banner image"}
+            src={userdata.banner?.url || "assets/placeholder-banner.jpg"}
+            alt={userdata.banner?.alt || "Profile Banner image"}
             loading="lazy"
           />
           <img
             className="absolute -bottom-24 left-1/2 h-52 w-52 -translate-x-1/2 rounded-full object-cover shadow-lg"
-            src={userdata.avatar.url}
-            alt={userdata.avatar.alt || "Profile Avatar image"}
+            src={userdata.avatar?.url || "assets/placeholder-avatar.jpg"}
+            alt={userdata.avatar?.alt || "Profile Avatar image"}
             loading="lazy"
           />
         </div>
@@ -87,7 +105,7 @@ function Profile() {
               Edit Profile
             </button>
           </div>
-          {isVenueManager ? (
+          {isVenueManager && (
             <div className="mt-3 flex justify-center">
               <button
                 onClick={() => setModalType("venue")}
@@ -96,7 +114,7 @@ function Profile() {
                 Add Venue
               </button>
             </div>
-          ) : null}
+          )}
         </div>
       </div>
       <UpdateProfileModal
@@ -113,66 +131,93 @@ function Profile() {
         apiKey={apiKey}
         token={token}
       />
-      {isVenueManager ? (
+      {isVenueManager && (
         <div>
           <h2 className="mt-8 text-center font-nunito text-2xl font-bold text-shadow-lg">
             My venues
           </h2>
           <div className="container mx-auto mt-2 flex flex-col items-center">
-            {userdata.venues && userdata.venues.length > 0 ? (
-              <ul className="mx-auto mb-5 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-                {sortedVenues.map((v) => (
-                  <li
-                    key={v.id}
-                    className="mx-auto mt-5 rounded-b-xl bg-secondary shadow-lg transition-transform hover:scale-105"
-                  >
-                    <Link to={`/specific-venue/${v.id}`}>
-                      <img
-                        className="h-[220px] w-[350px] rounded-t-xl object-cover lg:w-[420px]"
-                        src={
-                          v.media?.[0]?.url || "assets/placeholder-image.jpg"
-                        }
-                        alt={v.media?.[0]?.alt || v.name || "Venue image"}
-                        loading="lazy"
-                      />
-                      <div className="relative z-20 p-3">
-                        <div className="flex justify-between">
-                          <div>
-                            <h3 className="font-nunito text-xl font-semibold text-shadow-lg">
-                              {formatTitle(v.name)}
-                            </h3>
+            {sortedVenues.length > 0 ? (
+              <>
+                <ul className="mx-auto mb-5 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  {pagedVenues.map((v) => (
+                    <li
+                      key={v.id}
+                      className="mx-auto mt-5 rounded-b-xl bg-secondary shadow-lg transition-transform hover:scale-105"
+                    >
+                      <Link to={`/specific-venue/${v.id}`}>
+                        <img
+                          className="h-[220px] w-[350px] rounded-t-xl object-cover lg:w-[420px]"
+                          src={
+                            v.media?.[0]?.url || "assets/placeholder-image.jpg"
+                          }
+                          alt={v.media?.[0]?.alt || v.name || "Venue image"}
+                          loading="lazy"
+                        />
+                        <div className="relative z-20 p-3">
+                          <div className="flex justify-between">
+                            <div>
+                              <h3 className="font-nunito text-xl font-semibold text-shadow-lg">
+                                {formatTitle(v.name)}
+                              </h3>
+                            </div>
+                            <div>
+                              <p className="font-montserrat font-medium">
+                                {v.rating}/5{" "}
+                                <FontAwesomeIcon
+                                  icon={faStar}
+                                  className="mr-1 text-accentDark"
+                                />
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-montserrat font-medium">
-                              {v.rating}/5{" "}
-                              <FontAwesomeIcon
-                                icon={faStar}
-                                className="mr-1 text-accentDark"
-                              />
-                            </p>
-                          </div>
+                          <p className="text-md font-openSans">
+                            <b>{v.price} NOK</b> /night
+                          </p>
+                          <p className="text-md font-openSans">
+                            <FontAwesomeIcon
+                              icon={faLocationDot}
+                              className="mr-1.5 text-sm text-accentDark"
+                            />
+                            {v.location?.city && v.location?.country
+                              ? `${capitalizeWords(v.location.city)}, ${capitalizeWords(v.location.country)}`
+                              : v.location?.city
+                                ? capitalizeWords(v.location.city)
+                                : v.location?.country
+                                  ? capitalizeWords(v.location.country)
+                                  : "No location stated"}
+                          </p>
                         </div>
-                        <p className="text-md font-openSans">
-                          <b>{v.price} NOK</b> /night
-                        </p>
-                        <p className="text-md font-openSans">
-                          <FontAwesomeIcon
-                            icon={faLocationDot}
-                            className="mr-1.5 text-sm text-accentDark"
-                          />
-                          {v.location?.city && v.location?.country
-                            ? `${capitalizeWords(v.location.city)}, ${capitalizeWords(v.location.country)}`
-                            : v.location?.city
-                              ? capitalizeWords(v.location.city)
-                              : v.location?.country
-                                ? capitalizeWords(v.location.country)
-                                : "No location stated"}
-                        </p>
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                {venuesPageCount > 1 && (
+                  <div className="my-4 flex justify-center gap-2">
+                    <button
+                      className="rounded-lg border-2 border-darkGrey px-4 py-1 font-nunito font-medium"
+                      onClick={() => setVenuesPage((p) => Math.max(p - 1, 0))}
+                      disabled={venuesPage === 0}
+                    >
+                      Previous
+                    </button>
+                    <span className="flex items-center">
+                      {venuesPage + 1} / {venuesPageCount}
+                    </span>
+                    <button
+                      className="rounded-lg border-2 border-darkGrey px-4 py-1 font-nunito font-medium"
+                      onClick={() =>
+                        setVenuesPage((p) =>
+                          Math.min(p + 1, venuesPageCount - 1)
+                        )
+                      }
+                      disabled={venuesPage === venuesPageCount - 1}
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="text-md text-center font-openSans font-semibold text-black">
                 You have no venues yet.
@@ -180,52 +225,78 @@ function Profile() {
             )}
           </div>
         </div>
-      ) : null}
+      )}
       <div>
         <h2 className="mt-8 text-center font-nunito text-2xl font-bold text-shadow-lg">
           My upcoming bookings
         </h2>
-        {error && <div className="text-red">{error}</div>}
-        {activeBookings.length === 0 && (
-          <div className="text-md mt-5 text-center font-openSans text-black">
-            You have no bookings yet.
-          </div>
-        )}
         <div className="container mx-auto mt-2 flex flex-col items-center">
-          {bookings && bookings.length > 0 && (
-            <ul className="mx-auto mb-10 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {sortedBookings.map((b) => (
-                <li
-                  key={b.id}
-                  className="mx-auto mt-5 rounded-b-xl bg-secondary shadow-lg transition-transform hover:scale-105"
-                >
-                  <Link to={`/specific-venue/${b.venue.id}`} key={b.id}>
-                    <img
-                      className="h-[220px] w-[350px] rounded-t-xl object-cover lg:w-[420px]"
-                      src={
-                        b.venue.media[0]?.url || "assets/placeholder-image.jpg"
-                      }
-                      alt={
-                        b.venue.media[0]?.alt || b.venue.name || "Venue image"
-                      }
-                      loading="lazy"
-                    ></img>
-                    <div className="p-3 text-black">
-                      <h3 className="font-nunito text-lg font-semibold text-shadow-lg">
-                        {formatTitle(b.venue.name)}
-                      </h3>
-                      <p className="text-md font-openSans">
-                        <b>{b.venue.price} NOK</b> /night
-                      </p>
-                      <p className="text-md font-openSans">
-                        <b>Booked dates:</b> {formatDate(b.dateFrom)} -{" "}
-                        {formatDate(b.dateTo)}
-                      </p>
-                    </div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {sortedBookings.length > 0 ? (
+            <>
+              <ul className="mx-auto mb-10 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+                {pagedBookings.map((b) => (
+                  <li
+                    key={b.id}
+                    className="mx-auto mt-5 rounded-b-xl bg-secondary shadow-lg transition-transform hover:scale-105"
+                  >
+                    <Link to={`/specific-venue/${b.venue.id}`}>
+                      <img
+                        className="h-[220px] w-[350px] rounded-t-xl object-cover lg:w-[420px]"
+                        src={
+                          b.venue.media[0]?.url ||
+                          "assets/placeholder-image.jpg"
+                        }
+                        alt={
+                          b.venue.media[0]?.alt || b.venue.name || "Venue image"
+                        }
+                        loading="lazy"
+                      />
+                      <div className="p-3 text-black">
+                        <h3 className="font-nunito text-lg font-semibold text-shadow-lg">
+                          {formatTitle(b.venue.name)}
+                        </h3>
+                        <p className="text-md font-openSans">
+                          <b>{b.venue.price} NOK</b> /night
+                        </p>
+                        <p className="text-md font-openSans">
+                          <b>Booked dates:</b> {formatDate(b.dateFrom)} -{" "}
+                          {formatDate(b.dateTo)}
+                        </p>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              {bookingsPageCount > 1 && (
+                <div className="mb-12 mt-3 flex justify-center gap-2">
+                  <button
+                    className="rounded-lg border-2 border-darkGrey px-4 py-1 font-nunito font-medium"
+                    onClick={() => setBookingsPage((p) => Math.max(p - 1, 0))}
+                    disabled={bookingsPage === 0}
+                  >
+                    Previous
+                  </button>
+                  <span className="flex items-center">
+                    {bookingsPage + 1} / {bookingsPageCount}
+                  </span>
+                  <button
+                    className="rounded-lg border-2 border-darkGrey px-4 py-1 font-nunito font-medium"
+                    onClick={() =>
+                      setBookingsPage((p) =>
+                        Math.min(p + 1, bookingsPageCount - 1)
+                      )
+                    }
+                    disabled={bookingsPage === bookingsPageCount - 1}
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-md mt-5 text-center font-openSans text-black">
+              You have no upcoming bookings.
+            </div>
           )}
         </div>
       </div>
