@@ -47,20 +47,27 @@ Create a functional, user-friendly front-end holiday website that integrates wit
 
 1. **Clone the repo:**
 
-````bash
+```bash
 git clone https://github.com/TheRegzi/holidaze.git
+```
 
 2. **Navigate to the project directory:**
+
 ```bash
 cd holidaze
+```
 
 3. **Install dependencies:**
+
 ```bash
 npm install
+```
 
 4. **Start the development server:**
+
 ```bash
 npm run dev
+```
 
 ## Deployment
 
@@ -69,4 +76,3 @@ The project is hosted on Netlify. Visit the application at: https://holidaze25.n
 ## Contact
 
 [My LinkedIn Page](www.linkedin.com/in/regine-dille-kornbakk-aa0a7b288/)
-````
