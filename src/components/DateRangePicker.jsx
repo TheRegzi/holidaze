@@ -21,6 +21,7 @@ export default function DateRangePicker({ value, onChange, excludeDates }) {
   return (
     <div className="relative z-50 w-full">
       <DatePicker
+        id="dates"
         selected={value[0]}
         onChange={onChange}
         startDate={value[0]}
