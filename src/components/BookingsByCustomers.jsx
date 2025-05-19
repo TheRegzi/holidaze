@@ -21,7 +21,7 @@ function BookingsByCustomers({ bookings }) {
   const startIndex = page * PAGE_SIZE;
   const endIndex = startIndex + PAGE_SIZE;
   const currentBookings = bookings?.slice(startIndex, endIndex) || [];
-  const pageCount = Math.ceil((bookings?.length || 0) / PAGE_SIZE);
+  const pageCount = Math.max(Math.ceil((bookings?.length || 0) / PAGE_SIZE), 1);
 
   const handlePrevious = () => {
     setPage((prev) => Math.max(prev - 1, 0));
@@ -86,6 +86,10 @@ function BookingsByCustomers({ bookings }) {
             >
               Previous
             </button>
+            {page > 0}
+            <span className="flex items-center">
+              {page + 1} / {pageCount}
+            </span>
             <button
               className="rounded-lg border-2 border-darkGrey bg-white px-4 py-1 font-nunito font-medium"
               onClick={handleNext}
