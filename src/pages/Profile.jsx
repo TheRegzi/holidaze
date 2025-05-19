@@ -12,7 +12,7 @@ import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
  * Renders different sections based on whether the user is a venue manager or not.
  * - Shows profile banner, avatar, name, and profile edit options.
  * - If user is a venue manager: displays a list of created venues and "Add Venue" modal.
- * - Shows list of upcoming bookings for all users.
+ * - Shows list of upcoming bookings for all users, and adds pagination that displays 6 venues at a time.
  *
  * Handles loading, error, and conditional rendering for robust UX.
  *
