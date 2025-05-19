@@ -5,6 +5,7 @@
 ## Overview
 
 This is my submission for the Project Exam 2 at my Front-end Development studies at Noroff. This project showcases my skills learned over the course of the last two years.
+
 Holidaze is a web app for viewing, booking and creating holiday venues. The application communicates with an existing API to handle the venue data. There are two roles to register as; Regular customer and Venue manager. A venue manager can add, edit and delete their own venues, in addition to the other abilities the regular customers have; creating bookings at venues and editing their profile.
 
 ## Goal
@@ -13,9 +14,9 @@ Create a functional, user-friendly front-end holiday website that integrates wit
 
 ## Features
 
-- All users can view a list of newest venues, and search for venues with location, dates to be booked and the number of guests.
-- All users can view a specific venue by id, and see the available dates marked in a calendar.
-- Registration: Users with a stud.noroff.no email address can register for the platform; either as a Customer or a Venue manager.
+- All users can view a list of newest venues, and search for venues by location, dates to be booked and number of guests.
+- All users can view a specific venue by ID, and see the available dates marked on a calendar.
+- Registration: Users with a 'stud.noroff.no' email address can register for the platform; either as a Customer or a Venue manager.
 
 ### For Regular Customers:
 
