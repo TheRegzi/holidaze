@@ -39,6 +39,7 @@ function BookingsByCustomers({ bookings }) {
       <div className="mx-auto flex w-[365px] flex-col overflow-hidden rounded-xl border-2 border-accentLight bg-white sm:w-[400px]">
         <div className="flex-1 overflow-x-auto">
           <table className="mx-auto w-full bg-white">
+            <caption className="sr-only">Bookings By Customers</caption>
             <thead>
               <tr className="bg-accentLight text-black">
                 <th className="px-4 py-2 text-left font-nunito text-lg font-bold">
