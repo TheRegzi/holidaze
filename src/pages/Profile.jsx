@@ -205,6 +205,9 @@ function Profile() {
                       src={
                         b.venue.media[0]?.url || "assets/placeholder-image.jpg"
                       }
+                      alt={
+                        b.venue.media[0]?.alt || b.venue.name || "Venue image"
+                      }
                       loading="lazy"
                     ></img>
                     <div className="p-3 text-black">
