@@ -75,4 +75,4 @@ The project is hosted on Netlify. Visit the application at: https://holidaze25.n
 
 ## Contact
 
-[My LinkedIn Page](www.linkedin.com/in/regine-dille-kornbakk-aa0a7b288/)
+[My LinkedIn Page](https://www.linkedin.com/in/regine-dille-kornbakk-aa0a7b288/)
