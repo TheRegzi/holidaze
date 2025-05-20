@@ -63,7 +63,6 @@ export function useProfileData(userName, apiKey, token) {
           }
           throw new Error(errorMessage);
         }
-
         const data = await response.json();
         setUserData(data.data);
       } catch (err) {
