@@ -23,7 +23,7 @@ function DeleteVenue({ id }) {
   return (
     <div>
       <button
-        className="mt-2 w-[170px] rounded-lg border-2 border-red bg-white p-2 font-montserrat font-semibold text-red shadow-lg transition-transform hover:scale-105"
+        className="mt-2 w-[170px] rounded-lg border-2 border-red bg-white p-2 font-montserrat font-semibold text-red shadow-lg transition-transform hover:scale-105 sm:w-[190px]"
         onClick={deleteVenue}
         disabled={loading}
       >

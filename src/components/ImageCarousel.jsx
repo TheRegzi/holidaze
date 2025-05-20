@@ -43,7 +43,7 @@ export default function ImageCarousel({ media }) {
       {media.length === 1 ? null : (
         <button
           onClick={prev}
-          className="absolute left-1 top-1/2 -translate-y-1/2 transform bg-black/50 px-4 py-1 text-2xl text-white hover:text-accentLight"
+          className="absolute left-0 top-1/2 -translate-y-1/2 transform bg-black/50 px-4 py-1.5 text-2xl text-white hover:text-accentLight"
           aria-label="Previous image"
         >
           <FontAwesomeIcon icon={faCircleArrowLeft} size="xl" />
@@ -52,7 +52,7 @@ export default function ImageCarousel({ media }) {
       {media.length === 1 ? null : (
         <button
           onClick={next}
-          className="absolute right-1 top-1/2 -translate-y-1/2 transform bg-black/50 px-4 py-1 text-2xl text-white hover:text-accentLight"
+          className="absolute right-0 top-1/2 -translate-y-1/2 transform bg-black/50 px-4 py-1.5 text-2xl text-white hover:text-accentLight"
           aria-label="Next image"
         >
           <FontAwesomeIcon icon={faCircleArrowRight} size="xl" />
