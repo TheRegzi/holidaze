@@ -9,6 +9,7 @@ export const API_BOOKINGS = `${API_URL}/holidaze/bookings`;
 export const API_BOOKING = (id) => `${API_URL}/holidaze/bookings/${id}`;
 
 // Profile
+export const API_PROFILES = `${API_URL}/holidaze/profiles`;
 export const API_PROFILE = (name) => `${API_URL}/holidaze/profiles/${name}`;
 export const API_PROFILE_BOOKINGS = (name) =>
   `${API_URL}/holidaze/profiles/${name}/bookings`;

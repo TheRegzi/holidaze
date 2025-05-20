@@ -52,9 +52,14 @@ export function useProfileData(userName, apiKey, token) {
           let errorMessage = "Network response was not ok";
           try {
             const errorData = await response.json();
-            errorMessage = errorData.error || errorData.message || errorMessage;
+            errorMessage =
+              errorData?.error || errorData?.message || errorMessage;
           } catch {
-            /* intentionally empty: ignore JSON parsing error */
+            if (response.status === 401 || response.status === 403) {
+              errorMessage = "You are not authorized. Please log in again.";
+            } else {
+              errorMessage = `HTTP error: ${response.status}`;
+            }
           }
           throw new Error(errorMessage);
         }
@@ -63,7 +68,11 @@ export function useProfileData(userName, apiKey, token) {
         setUserData(data.data);
       } catch (err) {
         setUserData(null);
-        setError(err.message || "Unknown error fetching user data");
+        setError(
+          err instanceof Error && err.message
+            ? err.message
+            : "Unknown error fetching user data"
+        );
       } finally {
         setLoading(false);
       }
