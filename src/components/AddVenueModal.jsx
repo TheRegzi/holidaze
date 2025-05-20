@@ -102,6 +102,10 @@ function AddVenueModal({ isOpen, onClose, userData, apiKey, token }) {
         <h2 className="mb-6 text-center font-nunito text-3xl font-semibold text-shadow-lg">
           Add new venue
         </h2>
+        <p className="my-4 font-openSans text-sm text-darkGrey">
+          Add a new venue by filling out the information below. Please include
+          all necessary information.
+        </p>
         <form onSubmit={handleAddVenue} className="mx-auto max-w-[500px]">
           <div className="mb-4">
             <label
@@ -229,7 +233,7 @@ function AddVenueModal({ isOpen, onClose, userData, apiKey, token }) {
             >
               Facilities
             </label>
-            <p className="text-md mb-4 mt-1 text-darkGrey">
+            <p className="mb-4 mt-1 text-sm text-darkGrey">
               Select all facilities available at this venue by checking the
               appropriate boxes.
             </p>
