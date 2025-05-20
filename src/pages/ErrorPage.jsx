@@ -19,14 +19,14 @@ function ErrorPage() {
           role="img"
         />
       </div>
-      <div className="align-center mx-auto w-sm justify-center text-center">
+      <div className="align-center mx-auto justify-center text-center">
         <h1 className="my-7 font-nunito text-3xl font-semibold text-shadow-lg">
           Woops...
         </h1>
-        <p className="text-left font-openSans">
+        <p className="mx-auto w-[360px] text-left font-openSans sm:w-sm">
           The page you're looking for doesn't exist (error 404).
         </p>
-        <p className="text-left font-openSans">
+        <p className="mx-auto w-[360px] text-left font-openSans sm:w-sm">
           Please check the URL or return to the homepage.
         </p>
       </div>

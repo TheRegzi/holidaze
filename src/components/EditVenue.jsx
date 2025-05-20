@@ -99,6 +99,10 @@ function EditVenue({ venue }) {
             <h2 className="mb-6 text-center font-nunito text-3xl font-semibold text-shadow-lg">
               Edit venue
             </h2>
+            <p className="mx-auto my-4 max-w-[500px] font-openSans text-sm text-darkGrey">
+              Edit your venue by editing the information below. Please include
+              all necessary information.
+            </p>
             <form
               onSubmit={(e) =>
                 handleEditVenue(e, {
