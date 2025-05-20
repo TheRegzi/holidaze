@@ -15,7 +15,6 @@ import ProtectedRoute from "../components/ProtectedRoute";
  *
  * @returns {JSX.Element} The rendered route structure.
  */
-
 function AppRoutes() {
   return (
     <Routes>

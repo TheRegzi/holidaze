@@ -36,7 +36,6 @@ function Home() {
           <SearchBar onSearch={handleSearch} />
         </div>
       </div>
-
       <main className="container mx-auto px-4 py-8">
         <VenueList searchParams={searchParams} />
       </main>
