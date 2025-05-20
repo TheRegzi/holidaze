@@ -89,7 +89,7 @@ function Login() {
         <button
           disabled={loading}
           type="submit"
-          className="mx-auto mt-4 w-36 rounded bg-accent py-2 font-montserrat font-semibold text-black"
+          className="mx-auto mt-4 w-36 rounded bg-accent py-2 font-montserrat font-semibold text-black shadow-lg"
         >
           {loading ? "Logging  in..." : "Log in"}
         </button>

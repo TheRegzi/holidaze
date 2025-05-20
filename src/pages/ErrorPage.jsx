@@ -33,7 +33,7 @@ function ErrorPage() {
       <div className="mx-auto text-center">
         <Link
           to="/"
-          className="my-8 inline-block rounded-lg bg-accent px-5 py-3 font-montserrat text-xl font-semibold shadow-lg transition-transform hover:scale-105"
+          className="my-8 inline-block rounded-lg bg-accent px-5 py-2 font-montserrat text-lg font-semibold shadow-lg transition-transform hover:scale-105"
         >
           Go back to Home
         </Link>

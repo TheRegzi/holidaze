@@ -102,7 +102,7 @@ function AddVenueModal({ isOpen, onClose, userData, apiKey, token }) {
         <h2 className="mb-6 text-center font-nunito text-3xl font-semibold text-shadow-lg">
           Add new venue
         </h2>
-        <p className="my-4 font-openSans text-sm text-darkGrey">
+        <p className="mx-auto my-4 max-w-[500px] font-openSans text-sm text-darkGrey">
           Add a new venue by filling out the information below. Please include
           all necessary information.
         </p>
