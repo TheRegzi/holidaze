@@ -23,10 +23,10 @@ function ErrorPage() {
         <h1 className="my-7 font-nunito text-3xl font-semibold text-shadow-lg">
           Woops...
         </h1>
-        <p className="mx-auto w-[360px] text-left font-openSans sm:w-sm">
+        <p className="mx-auto w-[350px] text-left font-openSans sm:w-sm">
           The page you're looking for doesn't exist (error 404).
         </p>
-        <p className="mx-auto w-[360px] text-left font-openSans sm:w-sm">
+        <p className="mx-auto w-[350px] text-left font-openSans sm:w-sm">
           Please check the URL or return to the homepage.
         </p>
       </div>
