@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SearchBar from "../components/SearchBar.jsx";
+import SearchBar from "../components/Searchbar.jsx";
 import VenueList from "../components/Venues";
 
 /**

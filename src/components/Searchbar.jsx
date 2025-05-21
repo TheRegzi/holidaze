@@ -105,7 +105,7 @@ function SearchBar({ onSearch }) {
         onClick={handleSearch}
         className="mt-4 rounded-md bg-accent px-10 py-2 font-montserrat font-semibold text-black text-shadow-lg md:ml-2 md:mt-0"
       >
-        Search here
+        Search
       </button>
     </div>
   );
