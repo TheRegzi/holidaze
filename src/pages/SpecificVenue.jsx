@@ -109,7 +109,7 @@ function SpecificVenue() {
         <div className="mx-auto flex flex-col justify-around gap-10 md:flex-row-reverse xl:w-[1200px]">
           {isOwner ? (
             <div>
-              <div className="mx-auto mb-3 mt-6 flex w-[350px] flex-row justify-around rounded-lg border-2 border-accentLight py-2 font-nunito text-lg md:w-full">
+              <div className="mx-auto mb-3 mt-6 flex w-[360px] flex-row justify-around rounded-lg border-2 border-accentLight py-2 font-nunito text-lg sm:w-[400px] md:w-full">
                 <div>
                   <p>
                     <b>Max guests:</b> {venue.data.maxGuests}
