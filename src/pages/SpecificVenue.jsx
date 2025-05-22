@@ -106,10 +106,10 @@ function SpecificVenue() {
             </p>
           </div>
         </div>
-        <div className="mx-auto flex flex-col justify-around md:flex-row-reverse md:gap-10 lg:w-xl">
+        <div className="mx-auto flex flex-col justify-around gap-10 md:flex-row-reverse xl:w-[1200px]">
           {isOwner ? (
             <div>
-              <div className="mx-auto mb-3 mt-2 flex w-[350px] flex-row justify-around rounded-lg border-2 border-accentLight py-2 font-nunito text-lg md:w-full">
+              <div className="mx-auto mb-3 mt-6 flex w-[350px] flex-row justify-around rounded-lg border-2 border-accentLight py-2 font-nunito text-lg md:w-full">
                 <div>
                   <p>
                     <b>Max guests:</b> {venue.data.maxGuests}
@@ -149,13 +149,13 @@ function SpecificVenue() {
             </div>
           )}
           <div className="flex-1 basis-1/2">
-            <div className="mb-7 mt-6 px-6 lg:mt-0 lg:px-0">
+            <div className="mb-7 mt-6 px-6 lg:mt-0 lg:px-3">
               <h2 className="mb-2 mt-3 text-left font-nunito text-xl font-bold text-black">
                 Description
               </h2>
-              <p className="mt-3">{venue.data.description}</p>
+              <p className="mt-3 lg:pr-16">{venue.data.description}</p>
             </div>
-            <div className="mt-5 px-6 lg:px-0">
+            <div className="mt-5 px-6 lg:px-3">
               <h2 className="mb-4 text-left font-nunito text-xl font-bold text-black">
                 Facilities
               </h2>
