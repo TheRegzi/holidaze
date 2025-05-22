@@ -45,7 +45,7 @@ export default function UpdateProfileModal({
         token,
         apiKey,
       });
-      onClose();
+      window.location.reload();
     } catch (error) {
       setError(`Could not update profile: ${error.message}`);
     } finally {
