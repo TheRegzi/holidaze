@@ -70,6 +70,10 @@ npm install
 npm run dev
 ```
 
+## Contributing
+
+If you want to contribute, please make a pull request so any changes can be reviewed before being merged. If you have questions or ideas, feel free to open an issue. All contributions are welcome!
+
 ## Deployment
 
 The project is hosted on Netlify. Visit the application at: https://holidaze25.netlify.app
