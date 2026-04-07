@@ -23,6 +23,7 @@ function Home() {
   return (
     <>
       <div className="relative">
+        <div className="bg-red-500 p-4 text-white">TEST</div>;
         <img
           className="h-[700px] w-full object-cover object-[center_60%]"
           src="/assets/derick-mckinney-GhX9SH0bNcc-unsplash.jpg"
